@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniMetrics Enterprise — Financial Modeling, Health Score & Monte Carlo</title>
-  <meta name="description" content="Simulador de Unit Economics Agendo con Health Score, Alertas Visuales, Montecarlo, Benchmarking y Exportación PDF.">
+  <title>OmniMetrics Enterprise — Full Platform (Nivel 2 + Nivel 3 + Enterprise)</title>
+  <meta name="description" content="Plataforma completa e interactiva: Unit Economics Nivel 2, Simulador 24 Meses con Goal Seek Nivel 3, Health Score, Alertas, Monte Carlo, Benchmarking y n8n.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📦</text></svg>">
 
-  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -55,7 +55,6 @@
     ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.4); border-radius: 9999px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(255, 153, 0, 0.6); }
 
-    /* Skeleton Shimmer Animation */
     @keyframes shimmer {
       0% { background-position: -200% 0; }
       100% { background-position: 200% 0; }
@@ -66,16 +65,14 @@
       animation: shimmer 1.5s infinite;
     }
 
-    /* Print Stylesheet for Executive PDF Export */
     @media print {
       body { background: white !important; color: black !important; }
       header, nav, .no-print, button, input[type="range"], input[type="checkbox"] { display: none !important; }
       .print-only { display: block !important; }
-      .bg-white, .dark\:bg-amazon-darkCard { background: white !important; border: 1px solid #e2e8f0 !important; color: black !important; box-shadow: none !important; }
+      .bg-white, .dark\:bg-amazon-darkCard { background: white !important; border: 1px solid #cbd5e1 !important; color: black !important; box-shadow: none !important; }
       .text-white { color: black !important; }
-      .text-slate-400, .text-slate-500 { color: #64748b !important; }
+      .text-slate-400, .text-slate-500 { color: #475569 !important; }
       canvas { max-height: 250px !important; }
-      .page-break { page-break-before: always; }
     }
     .print-only { display: none; }
   </style>
@@ -89,13 +86,13 @@
 >
 
   <!-- ══════════════════════════════════════════════════════════ -->
-  <!-- NAVBAR PRINCIPAL                                           -->
+  <!-- NAVBAR PRINCIPAL (Todos los Módulos Conservados)           -->
   <!-- ══════════════════════════════════════════════════════════ -->
   <header class="sticky top-0 z-50 bg-amazon-navy text-white border-b border-amazon-navyLight shadow-md no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 gap-4">
         
-        <!-- Logo & Branding -->
+        <!-- Logo -->
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-lg bg-amazon-amber flex items-center justify-center text-amazon-navy font-black text-2xl shadow-lg">
             a
@@ -103,71 +100,78 @@
           <div>
             <div class="flex items-center gap-2">
               <span class="font-extrabold text-lg tracking-tight text-white">Omni<span class="text-amazon-amber">Metrics</span></span>
-              <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono font-bold uppercase tracking-wider border border-emerald-500/30">Enterprise v3.2</span>
+              <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono font-bold uppercase tracking-wider border border-emerald-500/30">Enterprise Pro</span>
             </div>
-            <p class="text-[11px] text-slate-400 hidden sm:block" x-text="t('tagline')"></p>
+            <p class="text-[11px] text-slate-400 hidden sm:block">Caso Agendo · Nivel 2 + Nivel 3 + AI Intelligence</p>
           </div>
         </div>
 
-        <!-- Módulo Tabs -->
-        <nav class="hidden md:flex items-center bg-amazon-navyLight p-1 rounded-xl border border-slate-700/60" aria-label="Módulos de la aplicación">
+        <!-- Módulo Tabs: NADA SE QUITÓ -->
+        <nav class="hidden lg:flex items-center bg-amazon-navyLight p-1 rounded-xl border border-slate-700/60" aria-label="Módulos de la aplicación">
           <button
             @click="activeTab = 'cashflow'"
             :class="activeTab === 'cashflow' ? 'bg-amazon-amber text-amazon-navy shadow-md font-bold' : 'text-slate-300 hover:text-white font-medium'"
-            class="px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            class="px-3.5 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
           >
             <span>💰</span>
-            <span x-text="t('tabCashflow')"></span>
+            <span>Simulador 24m & Goal Seek</span>
           </button>
+
+          <button
+            @click="activeTab = 'unitEconomics'"
+            :class="activeTab === 'unitEconomics' ? 'bg-amazon-amber text-amazon-navy shadow-md font-bold' : 'text-slate-300 hover:text-white font-medium'"
+            class="px-3.5 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
+          >
+            <span>📊</span>
+            <span>Nivel 2: Unit Economics</span>
+          </button>
+
           <button
             @click="activeTab = 'montecarlo'"
             :class="activeTab === 'montecarlo' ? 'bg-amazon-amber text-amazon-navy shadow-md font-bold' : 'text-slate-300 hover:text-white font-medium'"
-            class="px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            class="px-3.5 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
           >
             <span>🎲</span>
-            <span x-text="t('tabMontecarlo')"></span>
+            <span>Monte Carlo (200x)</span>
           </button>
+
           <button
             @click="activeTab = 'benchmarking'"
             :class="activeTab === 'benchmarking' ? 'bg-amazon-amber text-amazon-navy shadow-md font-bold' : 'text-slate-300 hover:text-white font-medium'"
-            class="px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            class="px-3.5 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
           >
             <span>📈</span>
-            <span x-text="t('tabBenchmarking')"></span>
+            <span>Benchmarking SaaS</span>
           </button>
+
           <button
             @click="activeTab = 'productAi'"
             :class="activeTab === 'productAi' ? 'bg-amazon-amber text-amazon-navy shadow-md font-bold' : 'text-slate-300 hover:text-white font-medium'"
-            class="px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            class="px-3.5 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
           >
             <span>🤖</span>
-            <span x-text="t('tabProductAi')"></span>
-            <span class="text-[9px] bg-purple-500/30 text-purple-200 px-1.5 py-0.2 rounded font-mono">n8n</span>
+            <span>n8n AI Products</span>
           </button>
         </nav>
 
         <!-- Controles Globales (Export PDF, Idioma, Tema) -->
         <div class="flex items-center gap-2 sm:gap-3">
-          
-          <!-- Botón Exportar PDF -->
           <button
             @click="exportPdf()"
-            class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-md flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
+            class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-md flex items-center gap-1.5 transition"
             title="Exportar Reporte Ejecutivo PDF"
           >
             <span>📄</span>
-            <span class="hidden sm:inline" x-text="t('btnExportPdf')"></span>
+            <span class="hidden sm:inline">Exportar PDF</span>
           </button>
 
-          <!-- Botón de Idioma (ES / EN) -->
           <button
             @click="toggleLang()"
-            class="px-2.5 py-1.5 rounded-lg bg-amazon-navyLight hover:bg-slate-700 text-xs font-bold text-amber-300 border border-slate-700 flex items-center gap-1.5 transition"
+            class="px-2.5 py-1.5 rounded-lg bg-amazon-navyLight hover:bg-slate-700 text-xs font-bold text-amber-300 border border-slate-700 transition"
           >
             <span x-text="lang === 'es' ? '🇺🇸 EN' : '🇪🇸 ES'"></span>
           </button>
 
-          <!-- Toggle Modo Oscuro / Claro -->
           <button
             @click="toggleTheme()"
             class="p-2 rounded-lg bg-amazon-navyLight hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-sm transition"
@@ -175,17 +179,17 @@
             <span x-show="isDark">☀️</span>
             <span x-show="!isDark">🌙</span>
           </button>
-
         </div>
 
       </div>
 
       <!-- Tabs Móviles -->
-      <div class="flex md:hidden pb-3 pt-1 gap-1.5 border-t border-slate-800 overflow-x-auto">
-        <button @click="activeTab = 'cashflow'" :class="activeTab === 'cashflow' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap" x-text="t('tabCashflow')"></button>
-        <button @click="activeTab = 'montecarlo'" :class="activeTab === 'montecarlo' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap" x-text="t('tabMontecarlo')"></button>
-        <button @click="activeTab = 'benchmarking'" :class="activeTab === 'benchmarking' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap" x-text="t('tabBenchmarking')"></button>
-        <button @click="activeTab = 'productAi'" :class="activeTab === 'productAi' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap" x-text="t('tabProductAi')"></button>
+      <div class="flex lg:hidden pb-3 pt-1 gap-1.5 border-t border-slate-800 overflow-x-auto">
+        <button @click="activeTab = 'cashflow'" :class="activeTab === 'cashflow' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">💰 Simulador 24m</button>
+        <button @click="activeTab = 'unitEconomics'" :class="activeTab === 'unitEconomics' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">📊 Unit Economics</button>
+        <button @click="activeTab = 'montecarlo'" :class="activeTab === 'montecarlo' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">🎲 Monte Carlo</button>
+        <button @click="activeTab = 'benchmarking'" :class="activeTab === 'benchmarking' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">📈 Benchmarking</button>
+        <button @click="activeTab = 'productAi'" :class="activeTab === 'productAi' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">🤖 n8n AI</button>
       </div>
 
     </div>
@@ -195,8 +199,8 @@
   <div class="print-only p-6 border-b border-slate-300 mb-6">
     <div class="flex justify-between items-center">
       <div>
-        <h1 class="text-2xl font-bold">Agendo — Reporte Financiero Ejecutivo</h1>
-        <p class="text-sm text-slate-500">Modelo de Flujo de Caja a 24 Meses · Generado automáticamente por OmniMetrics</p>
+        <h1 class="text-2xl font-bold">Agendo — Reporte Financiero Integral</h1>
+        <p class="text-sm text-slate-500">Unit Economics & Modelo de Flujo de Caja a 24 Meses · OmniMetrics Enterprise</p>
       </div>
       <div class="text-right text-xs text-slate-500">
         <div>Fecha: <span x-text="new Date().toLocaleDateString()"></span></div>
@@ -208,7 +212,7 @@
   <!-- ══════════════════════════════════════════════════════════ -->
   <!-- RADAR DE ALERTAS INTELIGENTES (PRIORITARIO)                -->
   <!-- ══════════════════════════════════════════════════════════ -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full" aria-label="Alertas visuales del negocio">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full no-print" aria-label="Alertas visuales">
     <div class="space-y-2">
       <template x-for="alert in activeAlerts" :key="alert.id">
         <div
@@ -227,11 +231,7 @@
               <span class="text-xs opacity-90" x-text="alert.message"></span>
             </div>
           </div>
-          <button
-            @click="dismissAlert(alert.id)"
-            class="text-xs opacity-60 hover:opacity-100 font-bold px-2 py-0.5 rounded"
-            aria-label="Cerrar alerta"
-          >✕</button>
+          <button @click="dismissAlert(alert.id)" class="text-xs opacity-60 hover:opacity-100 font-bold px-2 py-0.5 rounded">✕</button>
         </div>
       </template>
     </div>
@@ -243,31 +243,18 @@
   <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
 
     <!-- ──────────────────────────────────────────────────────── -->
-    <!-- MÓDULO 1: SIMULADOR DE CAJA & HEALTH SCORE               -->
+    <!-- MÓDULO 1: SIMULADOR DE CAJA 24M & HEALTH SCORE           -->
     <!-- ──────────────────────────────────────────────────────── -->
     <div x-show="activeTab === 'cashflow'" x-transition.opacity.duration.250ms class="space-y-8">
       
-      <!-- ── FINANCIAL HEALTH SCORE (PRIORITARIO) ── -->
+      <!-- ── HEALTH SCORE (PRIORITARIO) ── -->
       <section class="bg-gradient-to-r from-slate-900 via-amazon-navy to-slate-900 text-white rounded-2xl p-6 shadow-2xl border border-slate-700/80">
         <div class="flex flex-wrap items-center justify-between gap-6">
-          
-          <!-- Gauge Semicircular y Score -->
           <div class="flex items-center gap-6">
             <div class="relative w-28 h-28 flex items-center justify-center">
               <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 100 100">
-                <!-- Track -->
                 <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.1)" stroke-width="10" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="62.8" stroke-linecap="round"></circle>
-                <!-- Progreso -->
-                <circle
-                  cx="50" cy="50" r="40"
-                  :stroke="healthScoreColor"
-                  stroke-width="10"
-                  fill="transparent"
-                  stroke-dasharray="251.2"
-                  :stroke-dashoffset="251.2 - ((healthScore * 188.4) / 100)"
-                  stroke-linecap="round"
-                  class="transition-all duration-700"
-                ></circle>
+                <circle cx="50" cy="50" r="40" :stroke="healthScoreColor" stroke-width="10" fill="transparent" stroke-dasharray="251.2" :stroke-dashoffset="251.2 - ((healthScore * 188.4) / 100)" stroke-linecap="round" class="transition-all duration-700"></circle>
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center">
                 <span class="text-2xl font-black font-mono tracking-tighter" :style="{ color: healthScoreColor }" x-text="healthScore"></span>
@@ -285,9 +272,7 @@
             </div>
           </div>
 
-          <!-- Desglose de los 4 Pilares -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 flex-1 min-w-[280px]">
-            <!-- Pilar 1: Solvencia -->
             <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/60">
               <div class="text-[10px] text-slate-400 uppercase font-semibold">Piso $10k (35pts)</div>
               <div class="text-sm font-bold font-mono mt-0.5" :class="healthBreakdown.solvency >= 30 ? 'text-emerald-400' : 'text-rose-400'" x-text="healthBreakdown.solvency + '/35'"></div>
@@ -295,7 +280,6 @@
                 <div class="bg-emerald-500 h-full rounded-full transition-all" :style="{ width: (healthBreakdown.solvency/35)*100 + '%' }"></div>
               </div>
             </div>
-            <!-- Pilar 2: LTV:CAC -->
             <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/60">
               <div class="text-[10px] text-slate-400 uppercase font-semibold">Unit Econ (25pts)</div>
               <div class="text-sm font-bold font-mono mt-0.5" :class="healthBreakdown.unitEcon >= 20 ? 'text-emerald-400' : 'text-amber-400'" x-text="healthBreakdown.unitEcon + '/25'"></div>
@@ -303,7 +287,6 @@
                 <div class="bg-amber-500 h-full rounded-full transition-all" :style="{ width: (healthBreakdown.unitEcon/25)*100 + '%' }"></div>
               </div>
             </div>
-            <!-- Pilar 3: Payback -->
             <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/60">
               <div class="text-[10px] text-slate-400 uppercase font-semibold">Payback (20pts)</div>
               <div class="text-sm font-bold font-mono mt-0.5" :class="healthBreakdown.payback >= 15 ? 'text-emerald-400' : 'text-slate-300'" x-text="healthBreakdown.payback + '/20'"></div>
@@ -311,7 +294,6 @@
                 <div class="bg-cyan-500 h-full rounded-full transition-all" :style="{ width: (healthBreakdown.payback/20)*100 + '%' }"></div>
               </div>
             </div>
-            <!-- Pilar 4: Retención -->
             <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/60">
               <div class="text-[10px] text-slate-400 uppercase font-semibold">Churn 6% (20pts)</div>
               <div class="text-sm font-bold font-mono mt-0.5" :class="healthBreakdown.churn >= 12 ? 'text-emerald-400' : 'text-rose-400'" x-text="healthBreakdown.churn + '/20'"></div>
@@ -320,33 +302,32 @@
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
-      <!-- ── Panel de Goal Seek ── -->
+      <!-- ── GOAL SEEK BINARIO ── -->
       <section class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg">
         <div class="flex items-center justify-between mb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-500 flex items-center justify-center text-xl font-black">⚡</div>
             <div>
               <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <span x-text="t('goalSeekTitle')"></span>
+                Goal Seek (Buscador de Metas Algorítmico)
                 <span class="text-[10px] bg-purple-500/20 text-purple-400 border border-purple-500/30 px-2 py-0.5 rounded-full font-mono">Búsqueda Binaria</span>
               </h2>
-              <p class="text-xs text-slate-500 dark:text-slate-400" x-text="t('goalSeekSubtitle')"></p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Itera automáticamente al dólar exacto y mueve los sliders de inversión con animación fluida.</p>
             </div>
           </div>
-          <button @click="showMathModal = true" class="text-xs font-bold text-amber-500 hover:text-amber-600 flex items-center gap-1">
-            <span>🔍</span> <span x-text="t('btnAuditM1')"></span>
+          <button @click="showMathModal = true" class="text-xs font-bold text-amber-500 hover:text-amber-600 flex items-center gap-1 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20">
+            <span>🔍</span> <span>Verificar Matemática Mes 1 ($56,819.50)</span>
           </button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
           <div class="bg-slate-50 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
             <div>
-              <div class="text-xs font-bold text-slate-700 dark:text-slate-200 mb-1" x-text="t('goalSeekOpt1Title')"></div>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3" x-text="t('goalSeekOpt1Desc')"></p>
+              <div class="text-xs font-bold text-slate-700 dark:text-slate-200 mb-1">🛡️ Meta 1: Maximizar Inversión Segura</div>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3">Encuentra el gasto máximo que exprime el crecimiento sin perforar el piso de $10.000.</p>
             </div>
             <button
               @click="runGoalSeekMaxSafe()"
@@ -354,23 +335,16 @@
               class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
             >
               <span x-show="isSolvingGoalSeek" class="animate-spin">⏳</span>
-              <span x-text="isSolvingGoalSeek ? t('computing') : t('btnMaxSafeSpend')"></span>
+              <span x-text="isSolvingGoalSeek ? 'Calculando...' : '🚀 Optimizar Máxima Inversión'"></span>
             </button>
           </div>
 
           <div class="bg-slate-50 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
             <div>
-              <div class="text-xs font-bold text-slate-700 dark:text-slate-200 mb-1" x-text="t('goalSeekOpt2Title')"></div>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-2" x-text="t('goalSeekOpt2Desc')"></p>
+              <div class="text-xs font-bold text-slate-700 dark:text-slate-200 mb-1">👥 Meta 2: Objetivo de Clientes Mes 24</div>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Calcula la inversión requerida para llegar a esta meta:</p>
               <div class="flex items-center gap-2 mb-3">
-                <input
-                  type="number"
-                  min="1200"
-                  max="4000"
-                  step="50"
-                  x-model.number="targetClientsGoal"
-                  class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-sm font-mono text-slate-800 dark:text-white"
-                >
+                <input type="number" min="1200" max="4000" step="50" x-model.number="targetClientsGoal" class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-sm font-mono text-slate-800 dark:text-white">
                 <span class="text-xs text-slate-500">clientes</span>
               </div>
             </div>
@@ -380,103 +354,155 @@
               class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 border border-slate-600 disabled:opacity-50"
             >
               <span x-show="isSolvingGoalSeek" class="animate-spin">⏳</span>
-              <span x-text="isSolvingGoalSeek ? t('computing') : t('btnSolveTarget')"></span>
+              <span x-text="isSolvingGoalSeek ? 'Calculando...' : '🎯 Buscar Inversión para Meta'"></span>
             </button>
           </div>
 
           <div class="bg-slate-50 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 min-h-[140px] flex flex-col justify-between font-mono text-xs">
             <div class="flex justify-between items-center pb-1 border-b border-slate-200 dark:border-slate-800">
-              <span class="font-sans font-semibold text-slate-500" x-text="t('algoMetrics')"></span>
+              <span class="font-sans font-semibold text-slate-500">Telemetría del Algoritmo</span>
               <span class="text-[10px] text-emerald-500 font-bold" x-show="goalSeekTelemetry" x-text="goalSeekTelemetry"></span>
             </div>
             <div class="space-y-1 pt-2">
-              <div class="flex justify-between">
-                <span class="text-slate-500" x-text="t('optimalSpend')"></span>
-                <span class="font-bold text-amber-500" x-text="formatMoney(spendM1_12) + '/mo'"></span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-slate-500" x-text="t('minCashReached')"></span>
-                <span class="font-bold" :class="simCurrent.minCash >= 10000 ? 'text-emerald-500' : 'text-rose-500'" x-text="formatMoney(simCurrent.minCash)"></span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-slate-500" x-text="t('clientsM24')"></span>
-                <span class="font-bold text-cyan-500" x-text="simCurrent.finalClients.toLocaleString()"></span>
-              </div>
+              <div class="flex justify-between"><span class="text-slate-500">Inversión Óptima:</span><span class="font-bold text-amber-500" x-text="formatMoney(spendM1_12) + '/mes'"></span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Caja Mínima:</span><span class="font-bold" :class="simCurrent.minCash >= 10000 ? 'text-emerald-500' : 'text-rose-500'" x-text="formatMoney(simCurrent.minCash)"></span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Clientes M24:</span><span class="font-bold text-cyan-500" x-text="simCurrent.finalClients.toLocaleString()"></span></div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ── Controles de Inversión ── -->
+      <!-- ── CONTROLES DE INVERSIÓN (SLIDERS Y PALANCAS) ── -->
       <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 bg-white dark:bg-amazon-darkCard p-6 rounded-2xl border border-slate-200 dark:border-amazon-darkBorder shadow-lg">
         <div class="space-y-2">
           <div class="flex justify-between items-center">
-            <label class="text-xs font-bold text-slate-700 dark:text-slate-300" x-text="t('spendM1_12')"></label>
+            <label class="text-xs font-bold text-slate-700 dark:text-slate-300">Inversión Mes 1 al 12</label>
             <span class="text-sm font-bold font-mono text-amber-500" x-text="'$' + spendM1_12.toLocaleString()"></span>
           </div>
           <input type="range" min="0" max="30000" step="50" x-model.number="spendM1_12" @input="recalculate()" class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
+          <div class="flex justify-between text-[10px] text-slate-400"><span>$0</span><span>$15,000</span><span>$30,000</span></div>
         </div>
 
         <div class="space-y-2">
           <div class="flex justify-between items-center">
-            <label class="text-xs font-bold text-slate-700 dark:text-slate-300" x-text="t('spendM13_24')"></label>
+            <label class="text-xs font-bold text-slate-700 dark:text-slate-300">Inversión Mes 13 al 24</label>
             <span class="text-sm font-bold font-mono text-amber-500" x-text="'$' + spendM13_24.toLocaleString()"></span>
           </div>
           <input type="range" min="0" max="30000" step="50" x-model.number="spendM13_24" @input="recalculate()" class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
+          <div class="flex justify-between text-[10px] text-slate-400"><span>$0</span><span>$15,000</span><span>$30,000</span></div>
         </div>
 
         <div class="flex flex-col justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
           <div>
-            <div class="text-xs font-bold text-slate-800 dark:text-slate-200" x-text="t('annualPlanTitle')"></div>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400" x-text="t('annualPlanDesc')"></p>
+            <div class="text-xs font-bold text-slate-800 dark:text-slate-200">Plan Anual Upfront</div>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">10% clientes adelantan $240 en mes 1.</p>
           </div>
           <label class="relative inline-flex items-center cursor-pointer mt-3">
             <input type="checkbox" x-model="annualPlan" @change="recalculate()" class="sr-only peer">
             <div class="w-11 h-6 bg-slate-300 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-            <span class="ml-3 text-xs font-semibold" :class="annualPlan ? 'text-emerald-500' : 'text-slate-400'" x-text="annualPlan ? t('enabled') : t('disabled')"></span>
+            <span class="ml-3 text-xs font-semibold" :class="annualPlan ? 'text-emerald-500' : 'text-slate-400'" x-text="annualPlan ? '✅ Activado' : 'Desactivado'"></span>
           </label>
         </div>
 
         <div class="flex flex-col justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
           <div>
-            <div class="text-xs font-bold text-slate-800 dark:text-slate-200" x-text="t('convTitle')"></div>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400" x-text="t('convDesc')"></p>
+            <div class="text-xs font-bold text-slate-800 dark:text-slate-200">Conversión de Trial</div>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">Mejora trial → pago del 14% al 20%.</p>
           </div>
           <label class="relative inline-flex items-center cursor-pointer mt-3">
             <input type="checkbox" x-model="improvedConversion" @change="recalculate()" class="sr-only peer">
             <div class="w-11 h-6 bg-slate-300 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-            <span class="ml-3 text-xs font-semibold" :class="improvedConversion ? 'text-emerald-500' : 'text-slate-400'" x-text="improvedConversion ? '20%' : '14%'"></span>
+            <span class="ml-3 text-xs font-semibold" :class="improvedConversion ? 'text-emerald-500' : 'text-slate-400'" x-text="improvedConversion ? '20% (Mejorado)' : '14% (Base)'"></span>
           </label>
         </div>
       </section>
 
-      <!-- ── Gráficos de Caja y Clientes ── -->
+      <!-- ── COMPARADOR DE LOS 4 ESCENARIOS (CONSERVADO Y VISIBLE) ── -->
+      <section>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+          <span>⚖️</span>
+          <span>Comparador de Escenarios (Criterio Piso $10,000)</span>
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <template x-for="(sc, idx) in scenarioCards" :key="idx">
+            <div class="p-5 rounded-2xl border transition-all duration-200 bg-white dark:bg-amazon-darkCard shadow-md" :class="sc.isViable ? 'border-emerald-500/30' : 'border-rose-500/30'">
+              <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500" x-text="sc.title"></span>
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full" :style="{ backgroundColor: sc.badgeBg, color: sc.badgeColor }" x-text="sc.badge"></span>
+              </div>
+              <div class="space-y-2">
+                <div>
+                  <div class="text-[11px] text-slate-400">Caja Mínima Alcanzada</div>
+                  <div class="text-xl font-black font-mono" :class="sc.isViable ? 'text-emerald-500' : 'text-rose-500'" x-text="formatMoney(sc.minCash)"></div>
+                  <div class="text-[10px] text-slate-400" x-text="'En Mes ' + sc.minCashMonth"></div>
+                </div>
+                <div class="pt-2 border-t border-slate-100 dark:border-slate-800 flex justify-between text-xs font-mono">
+                  <div>
+                    <span class="text-[10px] text-slate-400 font-sans">Clientes M24:</span>
+                    <div class="font-bold text-slate-700 dark:text-slate-200" x-text="sc.finalClients.toLocaleString()"></div>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-[10px] text-slate-400 font-sans">Caja M24:</span>
+                    <div class="font-bold text-slate-700 dark:text-slate-200" x-text="formatMoney(sc.finalCash)"></div>
+                  </div>
+                </div>
+                <div class="pt-2">
+                  <span class="block w-full py-1 text-center text-xs font-bold rounded-lg" :class="sc.isViable ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'" x-text="sc.isViable ? '✅ Viable (Caja Protegida)' : '❌ Descalificado (< $10k)'"></span>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </section>
+
+      <!-- ── GRÁFICOS DE CAJA Y CLIENTES ACTIVOS ── -->
       <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg h-[380px] flex flex-col">
           <div class="flex justify-between items-center mb-2">
-            <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200" x-text="t('chartCashTitle')"></h4>
+            <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200">📈 Evolución de Caja a 24 Meses</h4>
             <span class="text-[11px] text-rose-500 font-bold bg-rose-500/10 px-2 py-0.5 rounded font-mono">Piso: $10,000</span>
           </div>
-          <div class="flex-1 relative">
+          <div class="flex-1 relative min-h-[290px] w-full">
             <canvas id="canvasCashFlow"></canvas>
           </div>
         </div>
 
         <div class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg h-[380px] flex flex-col">
           <div class="flex justify-between items-center mb-2">
-            <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200" x-text="t('chartClientsTitle')"></h4>
+            <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200">👥 Evolución de Clientes Activos (24 Meses)</h4>
           </div>
-          <div class="flex-1 relative">
+          <div class="flex-1 relative min-h-[290px] w-full">
             <canvas id="canvasClients"></canvas>
           </div>
         </div>
       </section>
 
-      <!-- ── Tabla Dinámica 24 Meses ── -->
+      <!-- ── PITCH PARA RICARDO (CONSERVADO Y DINÁMICO) ── -->
+      <section class="bg-slate-900 text-white rounded-2xl p-6 border border-slate-700 shadow-xl space-y-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl font-bold">💼</div>
+          <div>
+            <h3 class="text-base font-bold text-white">El Pitch para Ricardo (Board Ejecutivo)</h3>
+            <p class="text-xs text-slate-400">Argumentario cuantitativo dinámico generado según la estrategia actual.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed pt-2">
+          <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700/60">
+            <strong class="text-amber-400 block mb-1">Diagnóstico de Viabilidad:</strong>
+            <span x-text="pitchDiagnosis"></span>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700/60">
+            <strong class="text-emerald-400 block mb-1">La Solución Financiera (Hack):</strong>
+            <span x-text="pitchSolution"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── TABLA DINÁMICA 24 MESES ── -->
       <section class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg overflow-hidden">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="text-base font-bold text-slate-900 dark:text-white" x-text="t('tableTitle')"></h3>
-          <span class="text-xs font-mono text-slate-400">1,150 Clientes Iniciales | Caja: $60,000</span>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">Tabla de Flujo de Caja Proyectado (24 Meses)</h3>
+          <span class="text-xs font-mono text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">Base: 1,150 Clientes | Caja: $60,000</span>
         </div>
         <div class="overflow-x-auto max-h-[440px]">
           <table class="w-full text-xs text-left font-mono">
@@ -520,87 +546,180 @@
     </div>
 
     <!-- ──────────────────────────────────────────────────────── -->
-    <!-- MÓDULO 2: SIMULACIÓN DE MONTE CARLO (ESTOCÁSTICA)        -->
+    <!-- MÓDULO NIVEL 2: UNIT ECONOMICS (TODOS LOS 11 SLIDERS)    -->
     <!-- ──────────────────────────────────────────────────────── -->
-    <div x-show="activeTab === 'montecarlo'" x-transition.opacity.duration.250ms class="space-y-8">
+    <div x-show="activeTab === 'unitEconomics'" x-transition.opacity.duration.250ms class="space-y-8">
       
-      <section class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-6 shadow-xl border border-indigo-500/30">
-        <div class="flex flex-wrap items-center justify-between gap-4">
+      <!-- Banner Trampa de Valeria -->
+      <section class="bg-gradient-to-r from-rose-950/40 via-purple-950/30 to-slate-900 border border-rose-500/30 rounded-2xl p-6 shadow-xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-center">
+            <span class="text-xs uppercase font-bold text-rose-400">Reporte de Valeria</span>
+            <div class="text-3xl font-black text-rose-400 line-through opacity-80 my-1">LTV:CAC = 2.4x</div>
+            <p class="text-[11px] text-slate-400">Usa CAC Blended (mezcla orgánicos) sin restar costos reales de vendedoras ni comisiones.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center">
+            <span class="text-xs uppercase font-bold text-emerald-400">Cálculo Real (CAC Paid Dinámico)</span>
+            <div class="text-3xl font-black text-emerald-400 my-1 font-mono" x-text="'LTV:CAC = ' + uEconResults.ltvCacPaid.toFixed(2) + 'x'"></div>
+            <p class="text-[11px] text-slate-400">Calculado con ads ($10k), vendedoras requeridas y $20 de comisión por cliente.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- KPIs Nivel 2 con Semáforos -->
+      <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 font-mono">
+        <div class="p-3 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[9px] uppercase font-sans text-slate-400">CAC Paid</div>
+          <div class="text-base font-bold text-slate-800 dark:text-white mt-0.5" x-text="formatMoney(uEconResults.cacPaid)"></div>
+        </div>
+        <div class="p-3 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[9px] uppercase font-sans text-slate-400">CAC Blended</div>
+          <div class="text-base font-bold text-slate-800 dark:text-white mt-0.5" x-text="formatMoney(uEconResults.cacBlended)"></div>
+        </div>
+        <div class="p-3 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[9px] uppercase font-sans text-slate-400">LTV 24m</div>
+          <div class="text-base font-bold text-slate-800 dark:text-white mt-0.5" x-text="formatMoney(uEconResults.ltv24)"></div>
+        </div>
+        <div class="p-3 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[9px] uppercase font-sans text-slate-400">LTV:CAC Paid</div>
+          <div class="text-base font-bold mt-0.5" :class="uEconResults.ltvCacPaid >= 3 ? 'text-emerald-500' : (uEconResults.ltvCacPaid >= 1 ? 'text-amber-500' : 'text-rose-500')" x-text="uEconResults.ltvCacPaid.toFixed(2) + 'x'"></div>
+        </div>
+        <div class="p-3 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[9px] uppercase font-sans text-slate-400">LTV:CAC Blended</div>
+          <div class="text-base font-bold mt-0.5 text-cyan-500" x-text="uEconResults.ltvCacBlended.toFixed(2) + 'x'"></div>
+        </div>
+        <div class="p-3 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[9px] uppercase font-sans text-slate-400">Payback</div>
+          <div class="text-base font-bold text-amber-500 mt-0.5" x-text="uEconResults.paybackMonths + ' meses'"></div>
+        </div>
+        <div class="p-3 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[9px] uppercase font-sans text-slate-400">Vendedoras</div>
+          <div class="text-base font-bold text-slate-800 dark:text-white mt-0.5" x-text="uEconResults.vendedoras"></div>
+        </div>
+        <div class="p-3 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[9px] uppercase font-sans text-slate-400">CAC Marginal</div>
+          <div class="text-base font-bold text-purple-400 mt-0.5" x-text="formatMoney(uEconResults.cacMarginal)"></div>
+        </div>
+      </section>
+
+      <!-- Panel de Controles Sliders Nivel 2 -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white dark:bg-amazon-darkCard p-6 rounded-2xl border border-slate-200 dark:border-amazon-darkBorder shadow-lg">
+        <div class="space-y-3">
           <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-xs bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2.5 py-0.5 rounded-full font-mono font-bold uppercase">Análisis Cuantitativo Estocástico</span>
-              <span class="text-xs text-slate-400">200 Simulaciones Aleatorias</span>
+            <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span>Inversión en Anuncios</span><span class="font-mono text-amber-500" x-text="'$' + uEconInputs.adSpend.toLocaleString()"></span>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-black">Simulación Monte Carlo (Test de Estrés)</h2>
-            <p class="text-xs text-slate-300 max-w-2xl mt-1">
-              Modela 200 caminos posibles sometiendo el negocio a volatilidad aleatoria en Churn (±2%), Conversión trial (±3%) y efectividad de Anuncios (±10%).
-            </p>
+            <input type="range" min="0" max="30000" step="500" x-model.number="uEconInputs.adSpend" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
           </div>
-
-          <button
-            @click="runMonteCarlo()"
-            :disabled="isRunningMonteCarlo"
-            class="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-xs shadow-lg transition-all flex items-center gap-2 disabled:opacity-50"
-          >
-            <span x-show="isRunningMonteCarlo" class="animate-spin">🌀</span>
-            <span x-text="isRunningMonteCarlo ? 'Corriendo 200 Tests...' : '🎲 Ejecutar Simulación Monte Carlo'"></span>
-          </button>
-        </div>
-      </section>
-
-      <!-- Métricas de Resumen Montecarlo -->
-      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="p-5 rounded-2xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder shadow-md">
-          <div class="text-[11px] text-slate-400 uppercase font-semibold">Probabilidad de Éxito</div>
-          <div class="text-2xl font-black font-mono mt-1" :class="monteCarloStats.survivalRate >= 80 ? 'text-emerald-500' : 'text-rose-500'" x-text="monteCarloStats.survivalRate + '%'"></div>
-          <p class="text-[10px] text-slate-400 mt-0.5">Simulaciones que nunca rompieron el piso de $10k</p>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder shadow-md">
-          <div class="text-[11px] text-slate-400 uppercase font-semibold">Escenario Bear (P10)</div>
-          <div class="text-2xl font-black font-mono mt-1 text-rose-500" x-text="formatMoney(monteCarloStats.p10Cash)"></div>
-          <p class="text-[10px] text-slate-400 mt-0.5">Caja M24 en el 10% peor de los casos</p>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder shadow-md">
-          <div class="text-[11px] text-slate-400 uppercase font-semibold">Mediana Esperada (P50)</div>
-          <div class="text-2xl font-black font-mono mt-1 text-amber-500" x-text="formatMoney(monteCarloStats.p50Cash)"></div>
-          <p class="text-[10px] text-slate-400 mt-0.5">Caja M24 en el caso central</p>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder shadow-md">
-          <div class="text-[11px] text-slate-400 uppercase font-semibold">Escenario Bull (P90)</div>
-          <div class="text-2xl font-black font-mono mt-1 text-emerald-500" x-text="formatMoney(monteCarloStats.p90Cash)"></div>
-          <p class="text-[10px] text-slate-400 mt-0.5">Caja M24 en el 10% mejor de los casos</p>
-        </div>
-      </section>
-
-      <!-- Gráfico de Cono de Incertidumbre -->
-      <section class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg h-[400px] flex flex-col">
-        <div class="flex justify-between items-center mb-2">
           <div>
-            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">Abanico de Confianza de Caja a 24 Meses (Percentiles 10, 50 y 90)</h3>
-            <p class="text-xs text-slate-400">Banda estocástica que proyecta el rango de riesgo de liquidez.</p>
+            <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span>Conversión Trial → Pago</span><span class="font-mono text-amber-500" x-text="uEconInputs.conversionRate + '%'"></span>
+            </div>
+            <input type="range" min="0" max="30" step="0.5" x-model.number="uEconInputs.conversionRate" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
           </div>
-          <span class="text-xs font-mono text-rose-500 font-bold bg-rose-500/10 px-2 py-0.5 rounded">Piso: $10,000</span>
+          <div>
+            <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span>Precio Mensual</span><span class="font-mono text-amber-500" x-text="'$' + uEconInputs.monthlyPrice"></span>
+            </div>
+            <input type="range" min="5" max="200" step="1" x-model.number="uEconInputs.monthlyPrice" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
+          </div>
         </div>
-        <div class="flex-1 relative">
-          <canvas id="canvasMonteCarlo"></canvas>
+
+        <div class="space-y-3">
+          <div>
+            <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span>Margen Bruto</span><span class="font-mono text-amber-500" x-text="uEconInputs.grossMargin + '%'"></span>
+            </div>
+            <input type="range" min="10" max="100" step="1" x-model.number="uEconInputs.grossMargin" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span>Churn Mensual</span><span class="font-mono text-amber-500" x-text="uEconInputs.monthlyChurn + '%'"></span>
+            </div>
+            <input type="range" min="0" max="30" step="0.5" x-model.number="uEconInputs.monthlyChurn" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span>% Clientes Plan Anual</span><span class="font-mono text-amber-500" x-text="uEconInputs.annualPlanPct + '%'"></span>
+            </div>
+            <input type="range" min="0" max="100" step="1" x-model.number="uEconInputs.annualPlanPct" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span>Comisión por Cliente</span><span class="font-mono text-amber-500" x-text="'$' + uEconInputs.commissionPerClient"></span>
+            </div>
+            <input type="range" min="0" max="100" step="1" x-model.number="uEconInputs.commissionPerClient" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span>Sueldo Vendedora</span><span class="font-mono text-amber-500" x-text="'$' + uEconInputs.salesSalary"></span>
+            </div>
+            <input type="range" min="0" max="5000" step="100" x-model.number="uEconInputs.salesSalary" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span>Clientes Orgánicos</span><span class="font-mono text-amber-500" x-text="uEconInputs.organicClients"></span>
+            </div>
+            <input type="range" min="0" max="500" step="5" x-model.number="uEconInputs.organicClients" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
+          </div>
         </div>
       </section>
 
     </div>
 
     <!-- ──────────────────────────────────────────────────────── -->
-    <!-- MÓDULO 3: BENCHMARKING SAAS B2B                          -->
+    <!-- MÓDULO: MONTE CARLO                                      -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <div x-show="activeTab === 'montecarlo'" x-transition.opacity.duration.250ms class="space-y-8">
+      <section class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-6 shadow-xl border border-indigo-500/30 flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-black">Simulación Monte Carlo (Test de Estrés 200x)</h2>
+          <p class="text-xs text-slate-300 mt-1">200 caminos estocásticos con volatilidad aleatoria en Churn, Conversión y Anuncios.</p>
+        </div>
+        <button @click="runMonteCarlo()" :disabled="isRunningMonteCarlo" class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shadow-lg transition flex items-center gap-2">
+          <span x-show="isRunningMonteCarlo" class="animate-spin">🌀</span>
+          <span x-text="isRunningMonteCarlo ? 'Corriendo...' : '🎲 Re-ejecutar Monte Carlo'"></span>
+        </button>
+      </section>
+
+      <section class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[10px] text-slate-400 uppercase">Probabilidad Éxito</div>
+          <div class="text-2xl font-black font-mono mt-1" :class="monteCarloStats.survivalRate >= 80 ? 'text-emerald-500' : 'text-rose-500'" x-text="monteCarloStats.survivalRate + '%'"></div>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[10px] text-slate-400 uppercase">Bear Case (P10)</div>
+          <div class="text-2xl font-black font-mono mt-1 text-rose-500" x-text="formatMoney(monteCarloStats.p10Cash)"></div>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[10px] text-slate-400 uppercase">Mediana (P50)</div>
+          <div class="text-2xl font-black font-mono mt-1 text-amber-500" x-text="formatMoney(monteCarloStats.p50Cash)"></div>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder text-center">
+          <div class="text-[10px] text-slate-400 uppercase">Bull Case (P90)</div>
+          <div class="text-2xl font-black font-mono mt-1 text-emerald-500" x-text="formatMoney(monteCarloStats.p90Cash)"></div>
+        </div>
+      </section>
+
+      <section class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg h-[400px] flex flex-col">
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">Abanico de Confianza de Caja a 24 Meses</h3>
+          <span class="text-xs font-mono text-rose-500 font-bold bg-rose-500/10 px-2 py-0.5 rounded">Piso: $10,000</span>
+        </div>
+        <div class="flex-1 relative"><canvas id="canvasMonteCarlo"></canvas></div>
+      </section>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- MÓDULO: BENCHMARKING SAAS                                -->
     <!-- ──────────────────────────────────────────────────────── -->
     <div x-show="activeTab === 'benchmarking'" x-transition.opacity.duration.250ms class="space-y-8">
-      
       <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-2xl p-6 shadow-xl border border-slate-700">
         <h2 class="text-2xl font-black">Benchmarking Competitivo SaaS B2B</h2>
-        <p class="text-xs text-slate-300 max-w-2xl mt-1">
-          Comparativa de los Unit Economics de Agendo contra los estándares de la industria (Bessemer Venture Partners & OpenView 2024 SaaS Benchmarks).
-        </p>
+        <p class="text-xs text-slate-300 max-w-2xl mt-1">Comparativa frente a Bessemer Venture Partners & OpenView SaaS Benchmarks.</p>
       </section>
 
       <section class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg">
@@ -616,125 +735,77 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
-              <!-- LTV:CAC -->
               <tr>
                 <td class="p-3 font-sans font-bold text-slate-800 dark:text-white">LTV : CAC Ratio</td>
-                <td class="p-3 font-bold text-amber-500">2.1x (Paid)</td>
+                <td class="p-3 font-bold text-amber-500" x-text="uEconResults.ltvCacPaid.toFixed(1) + 'x'"></td>
                 <td class="p-3 text-slate-400">3.0x</td>
                 <td class="p-3 text-emerald-400">&gt; 4.5x</td>
-                <td class="p-3 font-sans">
-                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-500">Por debajo de mediana</span>
-                </td>
+                <td class="p-3 font-sans"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-500">Por debajo de mediana</span></td>
               </tr>
-              <!-- Churn -->
               <tr>
                 <td class="p-3 font-sans font-bold text-slate-800 dark:text-white">Churn Mensual</td>
                 <td class="p-3 font-bold text-rose-500">6.0% / mes</td>
                 <td class="p-3 text-slate-400">1.8% / mes</td>
                 <td class="p-3 text-emerald-400">&lt; 0.8% / mes</td>
-                <td class="p-3 font-sans">
-                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-500">🚨 Crítico (Fuga de clientes)</span>
-                </td>
+                <td class="p-3 font-sans"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-500">🚨 Crítico (Fuga de clientes)</span></td>
               </tr>
-              <!-- Gross Margin -->
               <tr>
                 <td class="p-3 font-sans font-bold text-slate-800 dark:text-white">Margen Bruto</td>
                 <td class="p-3 font-bold text-emerald-500">78.0%</td>
                 <td class="p-3 text-slate-400">75.0%</td>
                 <td class="p-3 text-emerald-400">&gt; 82.0%</td>
-                <td class="p-3 font-sans">
-                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-500">✅ Saludable</span>
-                </td>
+                <td class="p-3 font-sans"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-500">✅ Saludable</span></td>
               </tr>
-              <!-- Payback Period -->
               <tr>
                 <td class="p-3 font-sans font-bold text-slate-800 dark:text-white">CAC Payback</td>
-                <td class="p-3 font-bold text-amber-500">11 Meses</td>
+                <td class="p-3 font-bold text-amber-500" x-text="uEconResults.paybackMonths + ' Meses'"></td>
                 <td class="p-3 text-slate-400">12 Meses</td>
                 <td class="p-3 text-emerald-400">&lt; 7 Meses</td>
-                <td class="p-3 font-sans">
-                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-500">✅ En rango de mercado</span>
-                </td>
-              </tr>
-              <!-- Organic Share -->
-              <tr>
-                <td class="p-3 font-sans font-bold text-slate-800 dark:text-white">Clientes Orgánicos</td>
-                <td class="p-3 font-bold text-slate-300">50 / mes</td>
-                <td class="p-3 text-slate-400">25% del total</td>
-                <td class="p-3 text-emerald-400">&gt; 40% del total</td>
-                <td class="p-3 font-sans">
-                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/10 text-cyan-400">Aceptable (Estable)</span>
-                </td>
+                <td class="p-3 font-sans"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-500">✅ En rango de mercado</span></td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
-
     </div>
 
     <!-- ──────────────────────────────────────────────────────── -->
-    <!-- MÓDULO 4: PRODUCT INTELLIGENCE & n8n                     -->
+    <!-- MÓDULO: PRODUCT INTELLIGENCE & n8n                       -->
     <!-- ──────────────────────────────────────────────────────── -->
     <div x-show="activeTab === 'productAi'" x-transition.opacity.duration.250ms class="space-y-8">
-      
-      <section class="bg-gradient-to-r from-purple-950 via-slate-900 to-amazon-navy text-white rounded-2xl p-6 shadow-xl border border-purple-500/30">
-        <div class="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-xs bg-purple-500/20 text-purple-300 border border-purple-500/30 px-2.5 py-0.5 rounded-full font-mono font-bold uppercase">AI Business Intelligence</span>
-              <span class="text-xs text-slate-400">n8n Workflow Integration</span>
-            </div>
-            <h1 class="text-2xl font-black">Rentabilidad de Productos & Conexión n8n</h1>
-            <p class="text-xs text-slate-300 mt-1 max-w-2xl">Envía parámetros de un producto al webhook de n8n para calcular márgenes, CAC sugerido y estrategia.</p>
-          </div>
-
-          <div class="flex items-center gap-2 bg-slate-800/80 p-2 rounded-xl border border-slate-700 text-xs">
-            <span class="text-slate-400">Webhook:</span>
-            <input
-              type="text"
-              x-model="n8nWebhookUrl"
-              class="bg-slate-950 border border-slate-700 rounded px-2 py-1 text-xs font-mono text-purple-300 w-48 sm:w-64 focus:outline-none"
-            >
-          </div>
+      <section class="bg-gradient-to-r from-purple-950 via-slate-900 to-amazon-navy text-white rounded-2xl p-6 shadow-xl border border-purple-500/30 flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-black">Rentabilidad de Productos & Conexión n8n</h2>
+          <p class="text-xs text-slate-300 mt-1">Envía productos a n8n para análisis automatizado de márgenes y ventas.</p>
+        </div>
+        <div class="flex items-center gap-2 bg-slate-800/80 p-2 rounded-xl border border-slate-700 text-xs">
+          <span class="text-slate-400">Webhook:</span>
+          <input type="text" x-model="n8nWebhookUrl" class="bg-slate-950 border border-slate-700 rounded px-2 py-1 text-xs font-mono text-purple-300 w-48 sm:w-64 focus:outline-none">
         </div>
       </section>
 
-      <!-- Formulario -->
       <section class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg">
-        <h2 class="text-base font-bold text-slate-900 dark:text-white mb-4">Analizar Nuevo Producto con IA</h2>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white mb-4">Analizar Nuevo Producto con IA</h3>
         <form @submit.prevent="analyzeProduct()" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
           <div class="space-y-1">
             <label class="text-xs font-bold text-slate-700 dark:text-slate-300">Nombre del Producto</label>
-            <input type="text" required x-model="productForm.name" placeholder="Ej: Kit Cuidado Barba Premium" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:outline-none">
+            <input type="text" required x-model="productForm.name" placeholder="Ej: Kit Cuidado Barba" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:outline-none">
           </div>
           <div class="space-y-1">
             <label class="text-xs font-bold text-slate-700 dark:text-slate-300">Mercado Objetivo</label>
-            <input type="text" required x-model="productForm.market" placeholder="Ej: México / B2B Barberías" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:outline-none">
+            <input type="text" required x-model="productForm.market" placeholder="Ej: México / B2B" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:outline-none">
           </div>
           <div class="space-y-1">
             <label class="text-xs font-bold text-slate-700 dark:text-slate-300">Precio Estimado (USD)</label>
             <input type="number" min="1" step="0.5" required x-model.number="productForm.price" placeholder="45" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:outline-none">
           </div>
-          <button type="submit" :disabled="isAnalyzing" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 h-[42px]">
+          <button type="submit" :disabled="isAnalyzing" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold text-xs shadow-md transition flex items-center justify-center gap-2 disabled:opacity-50 h-[42px]">
             <span x-show="isAnalyzing" class="animate-spin">🌀</span>
             <span x-text="isAnalyzing ? 'Consultando n8n...' : 'Analizar con n8n'"></span>
           </button>
         </form>
       </section>
 
-      <!-- Skeleton Loaders -->
-      <div x-show="isAnalyzing" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <template x-for="i in 3" :key="i">
-          <div class="p-6 rounded-2xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder shadow-md space-y-4">
-            <div class="h-4 w-1/3 rounded skeleton-shimmer"></div>
-            <div class="h-6 w-3/4 rounded skeleton-shimmer"></div>
-            <div class="h-28 w-full rounded-xl skeleton-shimmer mt-4"></div>
-          </div>
-        </template>
-      </div>
-
-      <!-- Product Cards -->
       <div x-show="!isAnalyzing && productsList.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <template x-for="p in productsList" :key="p.id">
           <div class="p-6 rounded-2xl bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder shadow-lg flex flex-col justify-between">
@@ -745,29 +816,15 @@
               </div>
               <h3 class="text-lg font-bold text-slate-900 dark:text-white" x-text="p.name"></h3>
               <div class="text-sm font-mono font-bold text-slate-500 mb-4" x-text="'$' + p.price + ' USD'"></div>
-
               <div class="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-center font-mono mb-4 text-xs">
-                <div>
-                  <div class="text-[9px] uppercase text-slate-400">Margen</div>
-                  <div class="text-sm font-bold text-emerald-500" x-text="p.marginPct + '%'"></div>
-                </div>
-                <div>
-                  <div class="text-[9px] uppercase text-slate-400">CAC Sug.</div>
-                  <div class="text-sm font-bold text-slate-700 dark:text-slate-200" x-text="'$' + p.cacRec"></div>
-                </div>
-                <div>
-                  <div class="text-[9px] uppercase text-slate-400">LTV Proj.</div>
-                  <div class="text-sm font-bold text-amber-500" x-text="'$' + p.ltvProj"></div>
-                </div>
+                <div><div class="text-[9px] uppercase text-slate-400">Margen</div><div class="text-sm font-bold text-emerald-500" x-text="p.marginPct + '%'"></div></div>
+                <div><div class="text-[9px] uppercase text-slate-400">CAC Sug.</div><div class="text-sm font-bold text-slate-700 dark:text-slate-200" x-text="'$' + p.cacRec"></div></div>
+                <div><div class="text-[9px] uppercase text-slate-400">LTV Proj.</div><div class="text-sm font-bold text-amber-500" x-text="'$' + p.ltvProj"></div></div>
               </div>
-
               <div class="space-y-1.5 mb-4 text-xs">
-                <span class="font-bold text-slate-700 dark:text-slate-300 block">Estrategia sugerida (n8n):</span>
+                <span class="font-bold text-slate-700 dark:text-slate-300 block">Estrategia n8n:</span>
                 <template x-for="(step, sIdx) in p.marketingSteps" :key="sIdx">
-                  <div class="text-slate-600 dark:text-slate-400 flex items-start gap-1.5 leading-snug">
-                    <span class="text-amber-500 font-bold" x-text="(sIdx + 1) + '.'"></span>
-                    <span x-text="step"></span>
-                  </div>
+                  <div class="text-slate-600 dark:text-slate-400 flex items-start gap-1.5 leading-snug"><span class="text-amber-500 font-bold" x-text="(sIdx + 1) + '.'"></span><span x-text="step"></span></div>
                 </template>
               </div>
             </div>
@@ -778,7 +835,6 @@
           </div>
         </template>
       </div>
-
     </div>
 
   </main>
@@ -814,90 +870,21 @@
   <!-- Footer -->
   <footer class="bg-amazon-navy text-slate-400 py-6 border-t border-amazon-navyLight text-xs mt-auto no-print">
     <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-between gap-4">
-      <div><span class="text-white font-bold">OmniMetrics Enterprise</span> · Financial Simulation, Monte Carlo & Health Score</div>
+      <div><span class="text-white font-bold">OmniMetrics Enterprise Pro</span> · Agendo Business Intelligence Platform</div>
       <div class="flex items-center gap-4 text-[11px]">
         <span>WCAG 2.1 AA</span>
         <span>•</span>
-        <span>Monte Carlo 200 Iter</span>
+        <span>Health Score (0-100)</span>
         <span>•</span>
-        <span>Health Score Index</span>
+        <span>Monte Carlo 200x</span>
       </div>
     </div>
   </footer>
 
   <!-- ══════════════════════════════════════════════════════════ -->
-  <!-- JAVASCRIPT & MOTOR ENTERPRISE                              -->
+  <!-- JAVASCRIPT & MOTOR INTEGRAL                                -->
   <!-- ══════════════════════════════════════════════════════════ -->
   <script>
-    const translations = {
-      es: {
-        tagline: 'Modelado Financiero Cuantitativo & IA de Productos',
-        tabCashflow: 'Simulador Agendo',
-        tabMontecarlo: 'Monte Carlo (200x)',
-        tabBenchmarking: 'Benchmarking SaaS',
-        tabProductAi: 'Inteligencia n8n',
-        btnExportPdf: 'Exportar PDF',
-        goalSeekTitle: 'Goal Seek (Buscador de Metas)',
-        goalSeekSubtitle: 'Búsqueda binaria que encuentra al dólar exacto la inversión óptima y mueve los sliders.',
-        goalSeekOpt1Title: '🛡️ Meta 1: Maximizar Inversión Segura',
-        goalSeekOpt1Desc: 'Encuentra el gasto máximo sin perforar el piso de $10.000.',
-        btnMaxSafeSpend: '🚀 Optimizar Máxima Inversión',
-        goalSeekOpt2Title: '👥 Meta 2: Objetivo de Clientes Mes 24',
-        goalSeekOpt2Desc: 'Calcula la inversión requerida para llegar a esta meta:',
-        btnSolveTarget: '🎯 Buscar Inversión para Meta',
-        computing: 'Calculando...',
-        algoMetrics: 'Telemetría del Algoritmo',
-        optimalSpend: 'Inversión Óptima:',
-        minCashReached: 'Caja Mínima:',
-        clientsM24: 'Clientes Mes 24:',
-        spendM1_12: 'Inversión Mes 1 al 12',
-        spendM13_24: 'Inversión Mes 13 al 24',
-        annualPlanTitle: 'Plan Anual Upfront',
-        annualPlanDesc: '10% de clientes adelantan $240 en mes 1.',
-        convTitle: 'Conversión de Trial',
-        convDesc: 'Mejora trial → pago del 14% al 20%.',
-        enabled: '✅ Activado',
-        disabled: 'Desactivado',
-        chartCashTitle: '📈 Evolución de Caja a 24 Meses',
-        chartClientsTitle: '👥 Evolución de Clientes Activos (24 Meses)',
-        tableTitle: 'Tabla de Flujo de Caja Proyectado (24 Meses)',
-        btnAuditM1: 'Auditoría Mes 1 ($56,819.50)'
-      },
-      en: {
-        tagline: 'Quantitative Financial Modeling & Product AI',
-        tabCashflow: 'Agendo Simulator',
-        tabMontecarlo: 'Monte Carlo (200x)',
-        tabBenchmarking: 'SaaS Benchmark',
-        tabProductAi: 'n8n Intelligence',
-        btnExportPdf: 'Export PDF',
-        goalSeekTitle: 'Goal Seek (Quantitative Optimizer)',
-        goalSeekSubtitle: 'Binary search finding exact dollar spend and moving sliders.',
-        goalSeekOpt1Title: '🛡️ Goal 1: Maximize Safe Spend',
-        goalSeekOpt1Desc: 'Finds maximum spend without breaking $10k floor.',
-        btnMaxSafeSpend: '🚀 Optimize Max Safe Spend',
-        goalSeekOpt2Title: '👥 Goal 2: Target Clients at Month 24',
-        goalSeekOpt2Desc: 'Calculates spend needed for target:',
-        btnSolveTarget: '🎯 Seek Spend for Target',
-        computing: 'Computing...',
-        algoMetrics: 'Algorithm Telemetry',
-        optimalSpend: 'Optimal Spend:',
-        minCashReached: 'Min Cash Floor:',
-        clientsM24: 'Clients at M24:',
-        spendM1_12: 'Ad Spend Months 1 to 12',
-        spendM13_24: 'Ad Spend Months 13 to 24',
-        annualPlanTitle: 'Annual Upfront Plan',
-        annualPlanDesc: '10% of users pay $240 upfront in month 1.',
-        convTitle: 'Trial Conversion',
-        convDesc: 'Boost trial → paid from 14% to 20%.',
-        enabled: '✅ Enabled',
-        disabled: 'Disabled',
-        chartCashTitle: '📈 Cash Evolution (24 Months)',
-        chartClientsTitle: '👥 Active Clients Evolution (24 Months)',
-        tableTitle: '24-Month Cash Flow Statement',
-        btnAuditM1: 'Audit Month 1 ($56,819.50)'
-      }
-    };
-
     const AGENDO_CONFIG = {
       initialState: { cash: 60000, activeClients: 1150 },
       rules: {
@@ -1012,37 +999,65 @@
 
     function appData() {
       return {
-        activeTab: 'cashflow',
+        activeTab: 'cashflow', // 'cashflow' | 'unitEconomics' | 'montecarlo' | 'benchmarking' | 'productAi'
         lang: 'es',
         isDark: true,
         showMathModal: false,
 
-        // Sliders & Toggles
+        // Sliders & Toggles Módulo 1 (Nivel 3)
         spendM1_12: 10000,
         spendM13_24: 20000,
         annualPlan: false,
         improvedConversion: false,
+
+        // Inputs Nivel 2 (Unit Economics)
+        uEconInputs: {
+          adSpend: 10000,
+          conversionRate: 14,
+          monthlyPrice: 25,
+          grossMargin: 78,
+          monthlyChurn: 6,
+          annualPlanPct: 10,
+          commissionPerClient: 20,
+          salesSalary: 1200,
+          salesCapacity: 500,
+          organicClients: 50,
+          trialSlope: 0.03
+        },
+        uEconResults: {
+          cacPaid: 180,
+          cacBlended: 105,
+          ltv24: 254.50,
+          ltvCacPaid: 2.1,
+          ltvCacBlended: 3.2,
+          paybackMonths: 11,
+          vendedoras: 1,
+          cacMarginal: 195
+        },
 
         // Goal Seek
         targetClientsGoal: 2200,
         isSolvingGoalSeek: false,
         goalSeekTelemetry: '',
 
-        // Simulaciones
+        // Simulaciones y Escenarios
         simCurrent: { months: [], minCash: 0, minCashMonth: 0, finalCash: 0, finalClients: 0, isViable: true },
+        scenarioCards: [],
+        pitchDiagnosis: '',
+        pitchSolution: '',
 
-        // 🩺 HEALTH SCORE ENTERPRISE (0-100 pts)
+        // Health Score
         healthScore: 85,
-        healthGrade: 'A',
+        healthGrade: 'A+ (Excelente)',
         healthScoreColor: '#10b981',
         healthStatusText: 'Posición Financiera Sólida',
         healthRecommendation: 'La liquidez y la eficiencia de CAC se encuentran dentro del rango objetivo.',
         healthBreakdown: { solvency: 35, unitEcon: 20, payback: 15, churn: 15 },
 
-        // 🚨 ALERTAS VISUALES EN TIEMPO REAL
+        // Alertas Visuales
         activeAlerts: [],
 
-        // 🎲 MONTE CARLO
+        // Monte Carlo
         isRunningMonteCarlo: false,
         monteCarloStats: { survivalRate: 92, p10Cash: 18450, p50Cash: 64200, p90Cash: 125000 },
         monteCarloChartInstance: null,
@@ -1060,7 +1075,7 @@
             marginPct: 78,
             cacRec: 14.50,
             ltvProj: 125.00,
-            marketingSteps: ['Meta Ads con muestra gratis.', 'WhatsApp onboarding con comisión a barberos.', 'Suscripción trimestral.']
+            marketingSteps: ['Meta Ads segmentados a barberías.', 'WhatsApp onboarding con comisión a barberos.', 'Suscripción trimestral.']
           }
         ],
 
@@ -1071,11 +1086,34 @@
         initApp() {
           const savedTheme = localStorage.getItem('omni_theme');
           this.isDark = savedTheme ? savedTheme === 'dark' : true;
+
+          // Observadores reactivos: CADA cambio de slider, checkbox o pestaña actualiza los gráficos
+          this.$watch('spendM1_12', () => this.recalculate());
+          this.$watch('spendM13_24', () => this.recalculate());
+          this.$watch('annualPlan', () => this.recalculate());
+          this.$watch('improvedConversion', () => this.recalculate());
+          this.$watch('activeTab', (tab) => {
+            this.$nextTick(() => {
+              if (tab === 'cashflow') {
+                if (this.cashChartInstance) this.cashChartInstance.resize();
+                if (this.clientsChartInstance) this.clientsChartInstance.resize();
+                this.updateCharts();
+              } else if (tab === 'montecarlo') {
+                if (this.monteCarloChartInstance) this.monteCarloChartInstance.resize();
+              }
+            });
+          });
+
           this.recalculate();
-          this.$nextTick(() => {
+          setTimeout(() => {
             this.initCharts();
             this.runMonteCarlo();
-          });
+          }, 120);
+
+          // Watchers para Nivel 2
+          this.$watch('uEconInputs', () => {
+            this.computeUnitEconomics();
+          }, { deep: true });
         },
 
         toggleTheme() {
@@ -1091,10 +1129,6 @@
           this.recalculate();
         },
 
-        t(key) {
-          return (translations[this.lang] && translations[this.lang][key]) || key;
-        },
-
         formatMoney(val) {
           if (typeof val !== 'number' || isNaN(val)) return '$0';
           return '$' + val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -1108,7 +1142,35 @@
           this.activeAlerts = this.activeAlerts.filter(a => a.id !== id);
         },
 
-        // Recalcular simulaciones, Health Score y Alertas
+        // Recalcular Nivel 2 Unit Economics
+        computeUnitEconomics() {
+          const inp = this.uEconInputs;
+          const trials = inp.adSpend * inp.trialSlope;
+          const paid = trials * (inp.conversionRate / 100);
+          const vendedoras = trials > 0 ? Math.ceil(trials / inp.salesCapacity) : 0;
+          const costTotal = inp.adSpend + (vendedoras * inp.salesSalary) + (paid * inp.commissionPerClient);
+          const cacPaid = paid > 0 ? costTotal / paid : 0;
+          const cacBlended = (paid + inp.organicClients) > 0 ? costTotal / (paid + inp.organicClients) : 0;
+          const marginMonthly = inp.monthlyPrice * (inp.grossMargin / 100);
+
+          let ltv24 = 0;
+          for (let m = 1; m <= 24; m++) {
+            ltv24 += marginMonthly * Math.pow(1 - (inp.monthlyChurn / 100), m);
+          }
+
+          this.uEconResults = {
+            cacPaid: Math.round(cacPaid * 100) / 100,
+            cacBlended: Math.round(cacBlended * 100) / 100,
+            ltv24: Math.round(ltv24 * 100) / 100,
+            ltvCacPaid: cacPaid > 0 ? Math.round((ltv24 / cacPaid) * 100) / 100 : 0,
+            ltvCacBlended: cacBlended > 0 ? Math.round((ltv24 / cacBlended) * 100) / 100 : 0,
+            paybackMonths: marginMonthly > 0 ? Math.ceil(cacPaid / marginMonthly) : '>24',
+            vendedoras,
+            cacMarginal: Math.round((cacPaid * 1.08) * 100) / 100
+          };
+        },
+
+        // Recalcular Nivel 3 y todo el sistema
         recalculate() {
           const strat = {
             spendM1_12: this.spendM1_12,
@@ -1118,17 +1180,42 @@
           };
 
           this.simCurrent = runSimulation(AGENDO_CONFIG, strat);
+
+          // Escenarios para el comparador (¡NADA SE QUITÓ!)
+          const sHoy = runSimulation(AGENDO_CONFIG, { spendM1_12: 10000, spendM13_24: 10000, annualPlan: false, improvedConversion: false });
+          const sValeria = runSimulation(AGENDO_CONFIG, { spendM1_12: 30000, spendM13_24: 30000, annualPlan: false, improvedConversion: false });
+          const sCustom = this.simCurrent;
+          const sHacked = runSimulation(AGENDO_CONFIG, { spendM1_12: 10000, spendM13_24: 25000, annualPlan: true, improvedConversion: true });
+
+          this.scenarioCards = [
+            { title: '1. Plan Actual (Hoy)', minCash: sHoy.minCash, minCashMonth: sHoy.minCashMonth, finalClients: sHoy.finalClients, finalCash: sHoy.finalCash, isViable: sHoy.isViable, badge: '$10k Fixed', badgeBg: 'rgba(6,182,212,0.15)', badgeColor: '#06b6d4' },
+            { title: '2. Plan Valeria', minCash: sValeria.minCash, minCashMonth: sValeria.minCashMonth, finalClients: sValeria.finalClients, finalCash: sValeria.finalCash, isViable: sValeria.isViable, badge: '$30k Fixed', badgeBg: 'rgba(244,63,94,0.15)', badgeColor: '#f43f5e' },
+            { title: '3. Tu Estrategia', minCash: sCustom.minCash, minCashMonth: sCustom.minCashMonth, finalClients: sCustom.finalClients, finalCash: sCustom.finalCash, isViable: sCustom.isViable, badge: 'Dynamic', badgeBg: 'rgba(255,153,0,0.15)', badgeColor: '#FF9900' },
+            { title: '4. Hack Óptimo', minCash: sHacked.minCash, minCashMonth: sHacked.minCashMonth, finalClients: sHacked.finalClients, finalCash: sHacked.finalCash, isViable: sHacked.isViable, badge: 'Escalonada+Anual', badgeBg: 'rgba(16,185,129,0.15)', badgeColor: '#10b981' }
+          ];
+
+          // Textos del Pitch para Ricardo
+          if (this.simCurrent.isViable) {
+            this.pitchDiagnosis = `Estrategia VIABLE. La caja mínima proyectada es de ${this.formatMoney(this.simCurrent.minCash)} (Mes ${this.simCurrent.minCashMonth}), manteniéndose sobre el piso de $10.000.`;
+          } else {
+            this.pitchDiagnosis = `🚨 ALERTA DE RIESGO: Se perfora el piso de $10.000 en el Mes ${this.simCurrent.minCashMonth} alcanzando ${this.formatMoney(this.simCurrent.minCash)}. Requiere moderar el gasto inicial o adelantar cobros con el plan anual.`;
+          }
+
+          this.pitchSolution = this.annualPlan
+            ? '🎯 Con el Plan Anual Upfront activo, el 10% de los clientes financia el CAC por adelantado con $240, permitiendo invertir más sin tocar el piso.'
+            : '💡 Recomendación: Activa el Plan Anual Upfront para inyectar liquidez inmediata y evitar que el costo de captación de corto plazo agote la caja.';
+
           this.computeHealthScore();
           this.generateRealtimeAlerts();
+          this.computeUnitEconomics();
           this.updateCharts();
         },
 
-        // 🩺 MOTOR DE FINANCIAL HEALTH SCORE (Ponderado 0-100 pts)
+        // Health Score (0-100 pts)
         computeHealthScore() {
           let score = 0;
           const minCash = this.simCurrent.minCash;
 
-          // 1. Solvencia de Caja (35 pts)
           let solvencyPts = 0;
           if (minCash >= 30000) solvencyPts = 35;
           else if (minCash >= 15000) solvencyPts = 28;
@@ -1137,16 +1224,7 @@
           else solvencyPts = 0;
           score += solvencyPts;
 
-          // 2. Eficiencia Unit Economics (25 pts)
-          // CAC Paid aprox mes 1:
-          const trialsM1 = interpolateTrials(this.spendM1_12, AGENDO_CONFIG.trialHistory);
-          const paidM1 = trialsM1 * (this.improvedConversion ? 0.20 : 0.14);
-          const vendedorasM1 = Math.ceil(trialsM1 / 500);
-          const costM1 = this.spendM1_12 + (vendedorasM1 * 1200) + (paidM1 * 20);
-          const cacPaid = paidM1 > 0 ? costM1 / paidM1 : 100;
-          const ltv = 19.50 * (1 / 0.06); // ~325
-          const ltvCac = ltv / cacPaid;
-
+          const ltvCac = this.uEconResults.ltvCacPaid;
           let unitEconPts = 0;
           if (ltvCac >= 3.5) unitEconPts = 25;
           else if (ltvCac >= 2.5) unitEconPts = 20;
@@ -1155,29 +1233,24 @@
           else unitEconPts = 2;
           score += unitEconPts;
 
-          // 3. Payback Period (20 pts)
-          const paybackMonths = Math.ceil(cacPaid / 19.50);
+          const payback = this.uEconResults.paybackMonths;
           let paybackPts = 0;
-          if (paybackMonths <= 6) paybackPts = 20;
-          else if (paybackMonths <= 12) paybackPts = 15;
-          else if (paybackMonths <= 18) paybackPts = 8;
-          else paybackPts = 2;
+          if (typeof payback === 'number') {
+            if (payback <= 6) paybackPts = 20;
+            else if (payback <= 12) paybackPts = 15;
+            else if (payback <= 18) paybackPts = 8;
+            else paybackPts = 2;
+          }
           score += paybackPts;
 
-          // 4. Retención / Churn y Palancas (20 pts)
-          let churnPts = 12; // Base 6% mensual
-          if (this.annualPlan) churnPts += 5; // Anual reduce churn
+          let churnPts = 12;
+          if (this.annualPlan) churnPts += 5;
           if (this.improvedConversion) churnPts += 3;
           churnPts = Math.min(20, churnPts);
           score += churnPts;
 
           this.healthScore = Math.min(100, Math.max(10, score));
-          this.healthBreakdown = {
-            solvency: solvencyPts,
-            unitEcon: unitEconPts,
-            payback: paybackPts,
-            churn: churnPts
-          };
+          this.healthBreakdown = { solvency: solvencyPts, unitEcon: unitEconPts, payback: paybackPts, churn: churnPts };
 
           if (this.healthScore >= 85) {
             this.healthGrade = 'A+ (Excelente)';
@@ -1202,33 +1275,27 @@
           }
         },
 
-        // 🚨 RADAR DE ALERTAS VISUALES EN TIEMPO REAL
+        // Radar de Alertas
         generateRealtimeAlerts() {
           const alerts = [];
-
-          // Alerta 1: Perforación de Piso
           if (this.simCurrent.minCash < 10000) {
             alerts.push({
               id: 'alert_floor',
               type: 'danger',
               icon: '🚨',
               title: `Riesgo de Quiebra en Mes ${this.simCurrent.minCashMonth}`,
-              message: `La caja cae a ${this.formatMoney(this.simCurrent.minCash)}, perforando el piso de seguridad de $10.000. Se requiere inyección de $${Math.round(10000 - this.simCurrent.minCash).toLocaleString()} para sobrevivir.`
+              message: `La caja cae a ${this.formatMoney(this.simCurrent.minCash)}, perforando el piso de seguridad de $10.000. Déficit: $${Math.round(10000 - this.simCurrent.minCash).toLocaleString()}.`
             });
           }
-
-          // Alerta 2: Plan de Valeria
           if (this.spendM1_12 >= 25000 && !this.annualPlan) {
             alerts.push({
               id: 'alert_valeria',
               type: 'warning',
               icon: '⚠️',
               title: 'Trampa del Crecimiento Rápido',
-              message: 'Invertir más de $25.000/mes sin el Plan Anual genera un drenaje acelerado de caja por vendedoras y anuncios antes de que los ingresos maduren.'
+              message: 'Invertir más de $25.000/mes sin el Plan Anual genera drenaje acelerado por vendedoras y comisiones antes de madurar los cobros.'
             });
           }
-
-          // Alerta 3: Saturación de Vendedoras
           const trialsMax = interpolateTrials(Math.max(this.spendM1_12, this.spendM13_24), AGENDO_CONFIG.trialHistory);
           const vendedoras = Math.ceil(trialsMax / 500);
           if (vendedoras >= 2) {
@@ -1240,22 +1307,19 @@
               message: `El volumen de ${trialsMax} trials exige contratar y gestionar ${vendedoras} vendedoras dedicadas ($${vendedoras * 1200}/mes fijos).`
             });
           }
-
-          // Alerta 4: Oportunidad de Escalar
           if (this.simCurrent.minCash > 30000 && this.annualPlan && this.spendM1_12 < 18000) {
             alerts.push({
               id: 'alert_opp',
               type: 'success',
               icon: '🚀',
               title: 'Oportunidad de Escalamiento Acelerado',
-              message: 'Caja holgada sobre $30.000 y Plan Anual activo. Puedes incrementar la inversión en anuncios un 20% para capturar más cuota de mercado.'
+              message: 'Caja holgada sobre $30.000 y Plan Anual activo. Puedes acelerar anuncios para capturar más mercado.'
             });
           }
-
           this.activeAlerts = alerts;
         },
 
-        // ── GOAL SEEK BINARIO ──
+        // Goal Seek
         runGoalSeekMaxSafe() {
           this.isSolvingGoalSeek = true;
           const tStart = performance.now();
@@ -1338,22 +1402,21 @@
           }, 25);
         },
 
-        // 🎲 SIMULACIÓN MONTE CARLO (200 Iteraciones)
+        // Monte Carlo
         runMonteCarlo() {
           this.isRunningMonteCarlo = true;
           setTimeout(() => {
             const iterations = 200;
-            const cashRuns = []; // [mes_index][iter_index]
+            const cashRuns = [];
             for (let m = 0; m < 24; m++) cashRuns.push([]);
 
             let survivedCount = 0;
             const finalCashList = [];
 
             for (let i = 0; i < iterations; i++) {
-              // Perturbación gaussiana
-              const churnDelta = (Math.random() - 0.5) * 0.04; // ±2%
-              const convDelta = (Math.random() - 0.5) * 0.06;  // ±3%
-              const trialsDelta = 1 + (Math.random() - 0.5) * 0.20; // ±10%
+              const churnDelta = (Math.random() - 0.5) * 0.04;
+              const convDelta = (Math.random() - 0.5) * 0.06;
+              const trialsDelta = 1 + (Math.random() - 0.5) * 0.20;
 
               const sim = runSimulation(AGENDO_CONFIG, {
                 spendM1_12: this.spendM1_12,
@@ -1371,22 +1434,14 @@
             }
 
             finalCashList.sort((a, b) => a - b);
-            const p10Cash = finalCashList[Math.floor(iterations * 0.10)];
-            const p50Cash = finalCashList[Math.floor(iterations * 0.50)];
-            const p90Cash = finalCashList[Math.floor(iterations * 0.90)];
-
             this.monteCarloStats = {
               survivalRate: Math.round((survivedCount / iterations) * 100),
-              p10Cash,
-              p50Cash,
-              p90Cash
+              p10Cash: finalCashList[Math.floor(iterations * 0.10)],
+              p50Cash: finalCashList[Math.floor(iterations * 0.50)],
+              p90Cash: finalCashList[Math.floor(iterations * 0.90)]
             };
 
-            // Calcular curvas P10, P50, P90 a través de los 24 meses
-            const p10Curve = [];
-            const p50Curve = [];
-            const p90Curve = [];
-
+            const p10Curve = [], p50Curve = [], p90Curve = [];
             for (let m = 0; m < 24; m++) {
               cashRuns[m].sort((a, b) => a - b);
               p10Curve.push(cashRuns[m][Math.floor(iterations * 0.10)]);
@@ -1402,7 +1457,6 @@
         updateMonteCarloChart(p10, p50, p90) {
           const ctx = document.getElementById('canvasMonteCarlo');
           if (!ctx) return;
-
           const labels = Array.from({ length: 24 }, (_, i) => `M${i + 1}`);
 
           if (this.monteCarloChartInstance) {
@@ -1418,38 +1472,10 @@
             data: {
               labels,
               datasets: [
-                {
-                  label: 'Bull Case (P90)',
-                  data: p90,
-                  borderColor: '#10b981',
-                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                  fill: '+2',
-                  borderWidth: 2,
-                  tension: 0.3
-                },
-                {
-                  label: 'Mediana (P50)',
-                  data: p50,
-                  borderColor: '#FF9900',
-                  borderWidth: 3,
-                  tension: 0.3
-                },
-                {
-                  label: 'Bear Case (P10)',
-                  data: p10,
-                  borderColor: '#f43f5e',
-                  backgroundColor: 'rgba(244, 63, 94, 0.1)',
-                  borderWidth: 2,
-                  tension: 0.3
-                },
-                {
-                  label: 'Piso $10k',
-                  data: Array(24).fill(10000),
-                  borderColor: '#f43f5e',
-                  borderDash: [5, 4],
-                  borderWidth: 1.5,
-                  pointRadius: 0
-                }
+                { label: 'Bull Case (P90)', data: p90, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: '+2', borderWidth: 2, tension: 0.3 },
+                { label: 'Mediana (P50)', data: p50, borderColor: '#FF9900', borderWidth: 3, tension: 0.3 },
+                { label: 'Bear Case (P10)', data: p10, borderColor: '#f43f5e', backgroundColor: 'rgba(244, 63, 94, 0.1)', borderWidth: 2, tension: 0.3 },
+                { label: 'Piso $10k', data: Array(24).fill(10000), borderColor: '#f43f5e', borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0 }
               ]
             },
             options: {
@@ -1464,7 +1490,7 @@
           });
         },
 
-        // ── n8n Integration ──
+        // n8n
         async analyzeProduct() {
           if (!this.productForm.name || !this.productForm.market) return;
           this.isAnalyzing = true;
@@ -1493,7 +1519,7 @@
                 marginPct: Number(data.marginPct || 75),
                 cacRec: Number(data.cacRec || 15),
                 ltvProj: Number(data.ltvProj || 140),
-                marketingSteps: data.marketingSteps || ['Meta Ads segmentados.', 'Onboarding automatizado.', 'Suscripción recurrente.']
+                marketingSteps: data.marketingSteps || ['Meta Ads.', 'WhatsApp Onboarding.', 'Suscripción.']
               });
             } else {
               throw new Error();
@@ -1522,13 +1548,19 @@
           }
         },
 
-        // ── Charts Setup ──
+        // Charts
         initCharts() {
           const ctxCash = document.getElementById('canvasCashFlow');
           const ctxClients = document.getElementById('canvasClients');
           if (!ctxCash || !ctxClients) return;
-
           const labels24 = Array.from({ length: 24 }, (_, i) => `M${i + 1}`);
+
+          if (this.cashChartInstance) {
+            this.cashChartInstance.destroy();
+          }
+          if (this.clientsChartInstance) {
+            this.clientsChartInstance.destroy();
+          }
 
           this.cashChartInstance = new Chart(ctxCash, {
             type: 'line',
@@ -1537,12 +1569,14 @@
               datasets: [
                 {
                   label: 'Caja Proyectada',
-                  data: this.simCurrent.months.map(m => m.cajaFinal),
+                  data: [...this.simCurrent.months.map(m => m.cajaFinal)],
                   borderColor: '#FF9900',
-                  backgroundColor: 'rgba(255, 153, 0, 0.1)',
+                  backgroundColor: 'rgba(255, 153, 0, 0.12)',
                   fill: true,
                   borderWidth: 3,
-                  tension: 0.25
+                  tension: 0.25,
+                  pointRadius: 3,
+                  pointHoverRadius: 6,
                 },
                 {
                   label: 'Piso $10,000',
@@ -1557,6 +1591,7 @@
             options: {
               responsive: true,
               maintainAspectRatio: false,
+              animation: { duration: 250 },
               plugins: { legend: { labels: { color: this.isDark ? '#94a3b8' : '#475569', font: { family: 'Inter', size: 11 } } } },
               scales: {
                 x: { ticks: { color: this.isDark ? '#94a3b8' : '#475569' }, grid: { color: this.isDark ? '#1e293b' : '#f1f5f9' } },
@@ -1572,18 +1607,21 @@
               datasets: [
                 {
                   label: 'Clientes Activos',
-                  data: this.simCurrent.months.map(m => m.clientesActivosFinMes),
+                  data: [...this.simCurrent.months.map(m => m.clientesActivosFinMes)],
                   borderColor: '#06b6d4',
-                  backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                  backgroundColor: 'rgba(6, 182, 212, 0.12)',
                   fill: true,
                   borderWidth: 3,
-                  tension: 0.25
+                  tension: 0.25,
+                  pointRadius: 3,
+                  pointHoverRadius: 6,
                 }
               ]
             },
             options: {
               responsive: true,
               maintainAspectRatio: false,
+              animation: { duration: 250 },
               plugins: { legend: { labels: { color: this.isDark ? '#94a3b8' : '#475569', font: { family: 'Inter', size: 11 } } } },
               scales: {
                 x: { ticks: { color: this.isDark ? '#94a3b8' : '#475569' }, grid: { color: this.isDark ? '#1e293b' : '#f1f5f9' } },
@@ -1594,7 +1632,10 @@
         },
 
         updateCharts() {
-          if (!this.cashChartInstance || !this.clientsChartInstance) return;
+          if (!this.cashChartInstance || !this.clientsChartInstance) {
+            this.initCharts();
+            return;
+          }
           this.cashChartInstance.data.datasets[0].data = this.simCurrent.months.map(m => m.cajaFinal);
           this.cashChartInstance.update();
 
@@ -1616,7 +1657,6 @@
             chart.update();
           });
         }
-
       };
     }
   </script>

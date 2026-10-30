@@ -621,7 +621,12 @@ export default function CashflowSimulator() {
             <span className="text-[11px] text-rose-400 font-semibold">Piso de Seguridad: $10.000</span>
           </h4>
           <div className="flex-1 relative">
-            <Line data={cashChartData} options={cashChartOptions} />
+            <Line
+              key={`cash-${spendM1_12}-${spendM13_24}-${annualPlan}-${improvedConversion}`}
+              data={cashChartData}
+              options={cashChartOptions}
+              redraw={false}
+            />
           </div>
         </div>
 
@@ -631,7 +636,12 @@ export default function CashflowSimulator() {
             👥 Evolución de Clientes Activos (Mes 1 a 24)
           </h4>
           <div className="flex-1 relative">
-            <Line data={clientsChartData} options={clientsChartOptions} />
+            <Line
+              key={`clients-${spendM1_12}-${spendM13_24}-${annualPlan}-${improvedConversion}`}
+              data={clientsChartData}
+              options={clientsChartOptions}
+              redraw={false}
+            />
           </div>
         </div>
       </section>
