@@ -1,0 +1,48 @@
+import CONFIG from '../config';
+
+/**
+ * Banner de la "Trampa de Valeria"
+ * Muestra el valor que Valeria reporta vs. el cálculo real.
+ */
+export default function ValeriaBanner({ results }) {
+  if (!results) return null;
+
+  const { claimedLtvCac, explanation } = CONFIG.valeriaReport;
+  const realLtvCacPaid = results.ltvCacPaid;
+  const diff = (claimedLtvCac - realLtvCacPaid).toFixed(2);
+
+  return (
+    <div className="valeria-banner animate-in">
+      {/* Lado de Valeria */}
+      <div className="valeria-side valeria-side--claimed">
+        <div className="valeria-side__label">
+          📄 Reporte de Valeria
+        </div>
+        <div className="valeria-side__value">
+          LTV:CAC = {claimedLtvCac}x
+        </div>
+        <div className="valeria-side__note">
+          Usa CAC Blended (mezcla orgánicos) sin restar costos reales de vendedoras y comisiones.
+        </div>
+      </div>
+
+      {/* Lado real */}
+      <div className="valeria-side valeria-side--real">
+        <div className="valeria-side__label">
+          📊 Cálculo Real (CAC Paid)
+        </div>
+        <div className="valeria-side__value">
+          LTV:CAC = {realLtvCacPaid.toFixed(2)}x
+        </div>
+        <div className="valeria-side__note">
+          Usando CAC Paid real que incluye inversión, vendedoras y comisiones por cada cliente.
+        </div>
+      </div>
+
+      {/* Warning */}
+      <div className="valeria-banner__warning">
+        ⚠️ Diferencia de <strong>{diff}x</strong> — {explanation}
+      </div>
+    </div>
+  );
+}
