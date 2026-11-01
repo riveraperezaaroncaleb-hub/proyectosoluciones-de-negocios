@@ -665,3 +665,50 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   EXECUTIVE PDF EXPORT & PRINT STYLES
+   ══════════════════════════════════════════════════════════════ */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Ocultar barra superior, sliders y botones de navegación */
+  .no-print,
+  .dashboard-header,
+  .control-panel,
+  .presentation-overlay,
+  button,
+  .btn {
+    display: none !important;
+  }
+
+  /* Estilos para que el reporte impreso ocupe la página con nitidez */
+  #printable-executive-report {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px 0 !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    overflow: visible !important;
+  }
+
+  table {
+    page-break-inside: avoid !important;
+  }
+
+  canvas {
+    max-width: 100% !important;
+    page-break-inside: avoid !important;
+  }
+}

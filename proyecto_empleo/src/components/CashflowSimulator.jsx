@@ -4,17 +4,39 @@ import {
   Zap, Shield, Target, Search, CheckCircle2, XCircle,
   TrendingUp, Users, DollarSign, BarChart3, Briefcase,
   Table2, X, Settings2, AlertTriangle, Lightbulb, Scale,
-  Calculator,
+  Calculator, Share2, FileDown, Tv,
 } from 'lucide-react';
 import { SIMULATOR_CONFIG } from '../cashflowConfig';
 import { runSimulation, formatMoney, goalSeekMaxSafeSpend, goalSeekTargetClients } from '../cashflowEngine';
 
-export default function CashflowSimulator() {
-  // Estrategia del usuario
-  const [spendM1_12, setSpendM1_12] = useState(10000);
-  const [spendM13_24, setSpendM13_24] = useState(20000);
-  const [annualPlan, setAnnualPlan] = useState(false);
-  const [improvedConversion, setImprovedConversion] = useState(false);
+export default function CashflowSimulator({
+  spendM1_12: propSpendM1_12,
+  setSpendM1_12: propSetSpendM1_12,
+  spendM13_24: propSpendM13_24,
+  setSpendM13_24: propSetSpendM13_24,
+  annualPlan: propAnnualPlan,
+  setAnnualPlan: propSetAnnualPlan,
+  improvedConversion: propImprovedConversion,
+  setImprovedConversion: propSetImprovedConversion,
+  onOpenPresentation,
+  onExportPdf,
+  onShareUrl,
+} = {}) {
+  // Estrategia del usuario con soporte para estado global/URL
+  const [internalSpendM1_12, setInternalSpendM1_12] = useState(10000);
+  const [internalSpendM13_24, setInternalSpendM13_24] = useState(20000);
+  const [internalAnnualPlan, setInternalAnnualPlan] = useState(false);
+  const [internalImprovedConversion, setInternalImprovedConversion] = useState(false);
+
+  const spendM1_12 = propSpendM1_12 !== undefined ? propSpendM1_12 : internalSpendM1_12;
+  const setSpendM1_12 = propSetSpendM1_12 || setInternalSpendM1_12;
+  const spendM13_24 = propSpendM13_24 !== undefined ? propSpendM13_24 : internalSpendM13_24;
+  const setSpendM13_24 = propSetSpendM13_24 || setInternalSpendM13_24;
+  const annualPlan = propAnnualPlan !== undefined ? propAnnualPlan : internalAnnualPlan;
+  const setAnnualPlan = propSetAnnualPlan || setInternalAnnualPlan;
+  const improvedConversion = propImprovedConversion !== undefined ? propImprovedConversion : internalImprovedConversion;
+  const setImprovedConversion = propSetImprovedConversion || setInternalImprovedConversion;
+
   const [showMathModal, setShowMathModal] = useState(false);
 
   // Estado del Goal Seek
@@ -296,6 +318,44 @@ export default function CashflowSimulator() {
 
   return (
     <div className="space-y-6">
+      {/* ── BARRA DE HERRAMIENTAS EJECUTIVAS ── */}
+      <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-slate-900/80 border border-indigo-500/25 rounded-2xl backdrop-blur-xl shadow-lg no-print">
+        <div className="flex items-center gap-2.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+          <span className="text-xs font-semibold text-slate-300">
+            Escenario en Vivo: <strong className="text-white">${spendM1_12.toLocaleString()} M1-12 / ${spendM13_24.toLocaleString()} M13-24</strong>
+            {annualPlan && <span className="ml-2 text-emerald-400 font-bold">· Plan Anual ON</span>}
+            {improvedConversion && <span className="ml-2 text-purple-400 font-bold">· Conv 20% ON</span>}
+          </span>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {onShareUrl && (
+            <button
+              onClick={onShareUrl}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold text-sky-300 bg-sky-950/60 border border-sky-500/30 hover:bg-sky-900/60 transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+            >
+              <Share2 size={13} /> Compartir Simulación (URL)
+            </button>
+          )}
+          {onExportPdf && (
+            <button
+              onClick={onExportPdf}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold text-emerald-300 bg-emerald-950/60 border border-emerald-500/30 hover:bg-emerald-900/60 transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+            >
+              <FileDown size={13} /> Exportar Reporte PDF
+            </button>
+          )}
+          {onOpenPresentation && (
+            <button
+              onClick={onOpenPresentation}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all flex items-center gap-1.5 shadow-md shadow-indigo-500/25 cursor-pointer"
+            >
+              <Tv size={13} /> Modo Presentación (Junta)
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* ── PANEL DE GOAL SEEK ── */}
       <section className="bg-gradient-to-r from-purple-950/40 via-indigo-950/40 to-slate-900 border border-purple-500/30 rounded-2xl p-6 backdrop-blur-xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
