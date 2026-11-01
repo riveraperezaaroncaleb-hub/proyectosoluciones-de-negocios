@@ -1,5 +1,26 @@
+import {
+  DollarSign,
+  TrendingUp,
+  TrendingDown,
+  Users,
+  Clock,
+  ShoppingCart,
+  Activity,
+  Zap,
+} from 'lucide-react';
 import { formatCurrency, getSemaphoreColor } from '../engine';
 import CONFIG from '../config';
+
+const cardIcons = [
+  <DollarSign size={16} />,
+  <ShoppingCart size={16} />,
+  <TrendingUp size={16} />,
+  <Activity size={16} />,
+  <Zap size={16} />,
+  <Clock size={16} />,
+  <Users size={16} />,
+  <TrendingDown size={16} />,
+];
 
 /**
  * Tarjetas de KPIs — resultados en vivo
@@ -10,6 +31,12 @@ export default function KpiCards({ results }) {
   const currency = CONFIG.meta.currency;
   const semPaid = getSemaphoreColor(results.ltvCacPaid);
   const semBlended = getSemaphoreColor(results.ltvCacBlended);
+
+  const semLabel = {
+    green: 'Saludable (>3x)',
+    yellow: 'Riesgoso (1–3x)',
+    red: 'Insostenible (<1x)',
+  };
 
   const cards = [
     {
@@ -35,7 +62,7 @@ export default function KpiCards({ results }) {
       value: results.ltvCacPaid.toFixed(2) + 'x',
       colorClass: `kpi-card__value--${semPaid}`,
       semaphore: semPaid,
-      sub: semPaid === 'green' ? '✅ Saludable (>3x)' : semPaid === 'yellow' ? '⚠️ Riesgoso (1-3x)' : '🚨 Insostenible (<1x)',
+      sub: semLabel[semPaid],
     },
     {
       label: 'LTV:CAC Blended',
@@ -46,10 +73,14 @@ export default function KpiCards({ results }) {
     },
     {
       label: 'Payback',
-      value: typeof results.paybackMonth === 'number' ? `${results.paybackMonth} meses` : results.paybackMonth,
-      colorClass: typeof results.paybackMonth === 'number' && results.paybackMonth <= 12
-        ? 'kpi-card__value--green'
-        : 'kpi-card__value--yellow',
+      value:
+        typeof results.paybackMonth === 'number'
+          ? `${results.paybackMonth} meses`
+          : results.paybackMonth,
+      colorClass:
+        typeof results.paybackMonth === 'number' && results.paybackMonth <= 12
+          ? 'kpi-card__value--green'
+          : 'kpi-card__value--yellow',
       sub: 'Meses para recuperar el CAC',
     },
     {
@@ -69,11 +100,35 @@ export default function KpiCards({ results }) {
   return (
     <div className="kpi-grid">
       {cards.map((card, i) => (
-        <div
-          key={card.label}
-          className={`kpi-card animate-in animate-in-delay-${i + 1}`}
-        >
-          <div className="kpi-card__label">{card.label}</div>
+        <div key={card.label} className={`kpi-card animate-in animate-in-delay-${i + 1}`}>
+          {/* Icon badge */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '10px',
+            }}
+          >
+            <div className="kpi-card__label">{card.label}</div>
+            <div
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: '8px',
+                background: 'rgba(99,102,241,0.1)',
+                border: '1px solid rgba(99,102,241,0.15)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--accent-primary)',
+                flexShrink: 0,
+              }}
+            >
+              {cardIcons[i]}
+            </div>
+          </div>
+
           <div className={`kpi-card__value ${card.colorClass}`}>
             {card.semaphore && (
               <span className={`semaphore semaphore--${card.semaphore}`} />

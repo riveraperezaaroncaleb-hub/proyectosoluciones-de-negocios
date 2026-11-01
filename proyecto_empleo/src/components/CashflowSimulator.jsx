@@ -1,5 +1,11 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Line } from 'react-chartjs-2';
+import {
+  Zap, Shield, Target, Search, CheckCircle2, XCircle,
+  TrendingUp, Users, DollarSign, BarChart3, Briefcase,
+  Table2, X, Settings2, AlertTriangle, Lightbulb, Scale,
+  Calculator,
+} from 'lucide-react';
 import { SIMULATOR_CONFIG } from '../cashflowConfig';
 import { runSimulation, formatMoney, goalSeekMaxSafeSpend, goalSeekTargetClients } from '../cashflowEngine';
 
@@ -274,30 +280,30 @@ export default function CashflowSimulator() {
 
     let recSpend = `Inversión Mes 1-12: $${spendM1_12.toLocaleString()} / Mes 13-24: $${spendM13_24.toLocaleString()}`;
     let statusPhrase = isCustomSafe
-      ? `✅ Tu estrategia es SOSTENIBLE. La caja mínima proyectada es de ${formatMoney(simCustom.minCash)} (Mes ${simCustom.minCashMonth}), manteniéndose por encima del piso de $10.000.`
-      : `🚨 RIESGO DE QUIEBRA: Tu estrategia perfora el piso de $10.000 en el Mes ${simCustom.minCashMonth} con una caja de ${formatMoney(simCustom.minCash)}.`;
+      ? `Tu estrategia es SOSTENIBLE. La caja mínima proyectada es de ${formatMoney(simCustom.minCash)} (Mes ${simCustom.minCashMonth}), manteniéndose por encima del piso de $10.000.`
+      : `RIESGO DE QUIEBRA: Tu estrategia perfora el piso de $10.000 en el Mes ${simCustom.minCashMonth} con una caja de ${formatMoney(simCustom.minCash)}.`;
 
     let valeriaCritique = isValeriaDead
       ? `El plan de Valeria ($30.000 fijos de inmediato) QUEMA LA CAJA en el Mes ${simValeria.minCashMonth} (cae a ${formatMoney(simValeria.minCash)}). El crecimiento desmedido en anuncios genera costos tempranos de vendedoras y comisiones antes de que los ingresos acumulados puedan solventarlos.`
       : `El plan de Valeria requiere un colchón de capital mucho mayor.`;
 
     let hackTip = !annualPlan
-      ? `💡 RECOMENDACIÓN CLAVE: Si activas el "Plan Anual Upfront", los nuevos clientes adelantan $240 en efectivo. Esto inyecta liquidez inmediata en los primeros meses y te permite financiar una mayor inversión en anuncios sin poner en riesgo la solvencia.`
-      : `🎯 EXCELENTE DECISIÓN: Con el Plan Anual activado, estás capturando efectivo por adelantado, lo que te permite sostener una mayor inversión en captación y maximizar los clientes en el Mes 24.`;
+      ? `RECOMENDACIÓN CLAVE: Si activas el "Plan Anual Upfront", los nuevos clientes adelantan $240 en efectivo. Esto inyecta liquidez inmediata en los primeros meses y te permite financiar una mayor inversión en anuncios sin poner en riesgo la solvencia.`
+      : `EXCELENTE DECISIÓN: Con el Plan Anual activado, estás capturando efectivo por adelantado, lo que te permite sostener una mayor inversión en captación y maximizar los clientes en el Mes 24.`;
 
     return { recSpend, statusPhrase, valeriaCritique, hackTip };
   }, [simCustom, simValeria, spendM1_12, spendM13_24, annualPlan]);
 
   return (
     <div className="space-y-6">
-      {/* ── PANEL DE GOAL SEEK (BUSCADOR DE METAS) ── */}
+      {/* ── PANEL DE GOAL SEEK ── */}
       <section className="bg-gradient-to-r from-purple-950/40 via-indigo-950/40 to-slate-900 border border-purple-500/30 rounded-2xl p-6 backdrop-blur-xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
-        
+
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl text-purple-400">
-              ⚡
+            <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400">
+              <Zap size={20} />
             </div>
             <div>
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -318,7 +324,7 @@ export default function CashflowSimulator() {
           <div className="bg-slate-900/70 p-4 rounded-xl border border-slate-700/60 flex flex-col justify-between">
             <div>
               <div className="text-xs font-bold text-purple-300 mb-1 flex items-center gap-1.5">
-                <span>🛡️</span> Meta 1: Maximizar Inversión Segura
+                <Shield size={13} /> Meta 1: Maximizar Inversión Segura
               </div>
               <p className="text-[11px] text-slate-400 mb-3">
                 Encuentra la máxima inversión mensual en anuncios que exprime el crecimiento sin perforar el piso de <strong>$10.000</strong>.
@@ -330,9 +336,9 @@ export default function CashflowSimulator() {
               className="btn btn--primary w-full text-xs py-2.5 flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-lg shadow-purple-500/25 transition-all"
             >
               {isSolvingGoalSeek ? (
-                <span>⏳ Calculando iteraciones...</span>
+                <span className="flex items-center gap-2"><Calculator size={13} /> Calculando iteraciones...</span>
               ) : (
-                <span>🚀 Optimizar Máxima Inversión</span>
+                <span className="flex items-center gap-2"><Target size={13} /> Optimizar Máxima Inversión</span>
               )}
             </button>
           </div>
@@ -341,7 +347,7 @@ export default function CashflowSimulator() {
           <div className="bg-slate-900/70 p-4 rounded-xl border border-slate-700/60 flex flex-col justify-between">
             <div>
               <div className="text-xs font-bold text-cyan-300 mb-1 flex items-center gap-1.5">
-                <span>👥</span> Meta 2: Objetivo de Clientes Mes 24
+                <Users size={13} /> Meta 2: Objetivo de Clientes Mes 24
               </div>
               <p className="text-[11px] text-slate-400 mb-2">
                 Ingresa cuántos clientes activos deseas tener en el Mes 24:
@@ -365,9 +371,9 @@ export default function CashflowSimulator() {
               className="btn w-full text-xs py-2.5 flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg shadow-cyan-500/25 transition-all"
             >
               {isSolvingGoalSeek ? (
-                <span>⏳ Buscando solución...</span>
+                <span className="flex items-center gap-2"><Search size={13} /> Buscando solución...</span>
               ) : (
-                <span>🎯 Buscar Inversión para Meta</span>
+                <span className="flex items-center gap-2"><Target size={13} /> Buscar Inversión para Meta</span>
               )}
             </button>
           </div>
@@ -375,7 +381,7 @@ export default function CashflowSimulator() {
           {/* Resultado de la Búsqueda Binaria */}
           <div className="bg-slate-900/70 p-4 rounded-xl border border-slate-700/60 min-h-[140px] flex flex-col justify-between">
             <div className="flex items-center justify-between text-xs text-slate-400 border-b border-slate-800 pb-1 mb-2">
-              <span className="font-semibold text-slate-300">Resultado Algorítmico</span>
+              <span className="font-semibold text-slate-300 flex items-center gap-1.5"><BarChart3 size={12} /> Resultado Algorítmico</span>
               {goalSeekResult && (
                 <span className="text-[10px] text-emerald-400 font-mono">
                   {goalSeekResult.iterations} pasos · {goalSeekResult.executionTimeMs}ms
@@ -393,11 +399,7 @@ export default function CashflowSimulator() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Caja mínima resultante:</span>
-                  <span
-                    className={`font-bold ${
-                      goalSeekResult.isSafe ? 'text-emerald-400' : 'text-rose-400'
-                    }`}
-                  >
+                  <span className={`font-bold ${goalSeekResult.isSafe ? 'text-emerald-400' : 'text-rose-400'}`}>
                     {formatMoney(goalSeekResult.minCash)}
                   </span>
                 </div>
@@ -407,24 +409,22 @@ export default function CashflowSimulator() {
                     {goalSeekResult.finalClients.toLocaleString()}
                   </span>
                 </div>
-                <div className="text-[10px] text-slate-400 pt-1 font-sans">
+                <div className="text-[10px] pt-1 font-sans flex items-center gap-1">
                   {goalSeekResult.isSafe ? (
-                    <span className="text-emerald-400 font-semibold">
-                      ✨ Sliders sincronizados automáticamente. Caja protegida.
+                    <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                      <CheckCircle2 size={11} /> Sliders sincronizados. Caja protegida.
                     </span>
                   ) : (
-                    <span className="text-rose-400 font-semibold">
-                      ⚠️ Atención: Para esa meta la caja cae por debajo de $10k.
+                    <span className="text-rose-400 font-semibold flex items-center gap-1">
+                      <AlertTriangle size={11} /> Para esa meta la caja cae por debajo de $10k.
                     </span>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-full text-slate-500 text-center py-2">
-                <span className="text-xl mb-1">🔍</span>
-                <span className="text-[11px]">
-                  Presiona uno de los botones para ejecutar la búsqueda binaria.
-                </span>
+              <div className="flex flex-col items-center justify-center h-full text-slate-500 text-center py-2 gap-2">
+                <Search size={20} />
+                <span className="text-[11px]">Presiona un botón para ejecutar la búsqueda binaria.</span>
               </div>
             )}
           </div>
@@ -436,7 +436,7 @@ export default function CashflowSimulator() {
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
           <div>
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span>🎯</span> Controles de Inversión y Estrategia
+              <Settings2 size={18} className="text-indigo-400" /> Controles de Inversión y Estrategia
             </h2>
             <p className="text-sm text-slate-400">
               Modela la aceleración de inversión en anuncios y activa las palancas de optimización de Nivel 1.
@@ -446,7 +446,7 @@ export default function CashflowSimulator() {
             onClick={() => setShowMathModal(true)}
             className="btn btn--primary flex items-center gap-2 text-xs py-2 px-4 shadow-lg shadow-indigo-500/20"
           >
-            <span>🔍</span> Ver Matemática Mes 1 ($56,819.50)
+            <Calculator size={13} /> Ver Matemática Mes 1 ($56,819.50)
           </button>
         </div>
 
@@ -513,8 +513,8 @@ export default function CashflowSimulator() {
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              <span className="ml-3 text-xs font-medium text-slate-300">
-                {annualPlan ? '✅ Activado' : 'Desactivado'}
+              <span className={`ml-3 text-xs font-medium flex items-center gap-1 ${annualPlan ? 'text-emerald-400' : 'text-slate-400'}`}>
+                {annualPlan ? <><CheckCircle2 size={12} /> Activado</> : 'Desactivado'}
               </span>
             </label>
           </div>
@@ -533,8 +533,8 @@ export default function CashflowSimulator() {
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              <span className="ml-3 text-xs font-medium text-slate-300">
-                {improvedConversion ? '✅ 20% (Mejorado)' : '14% (Base)'}
+              <span className={`ml-3 text-xs font-medium flex items-center gap-1 ${improvedConversion ? 'text-emerald-400' : 'text-slate-400'}`}>
+                {improvedConversion ? <><CheckCircle2 size={12} /> 20% (Mejorado)</> : '14% (Base)'}
               </span>
             </label>
           </div>
@@ -544,7 +544,7 @@ export default function CashflowSimulator() {
       {/* ── Comparador de los 4 Escenarios ── */}
       <section>
         <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-          <span>⚖️</span> Comparador de Escenarios (Criterio de Piso de $10.000)
+          <Scale size={18} className="text-indigo-400" /> Comparador de Escenarios (Criterio de Piso de $10.000)
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {scenarios.map((sc, i) => {
@@ -596,13 +596,13 @@ export default function CashflowSimulator() {
 
                   <div className="pt-2">
                     <span
-                      className={`inline-block w-full text-center py-1 rounded-lg text-xs font-bold ${
+                      className={`inline-flex w-full items-center justify-center gap-1.5 py-1 rounded-lg text-xs font-bold ${
                         isSafe
                           ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                           : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                       }`}
                     >
-                      {isSafe ? '✅ Viable (Caja Protegida)' : '❌ Descalificado (< $10k)'}
+                      {isSafe ? <><CheckCircle2 size={12} /> Viable (Caja Protegida)</> : <><XCircle size={12} /> Descalificado (&lt; $10k)</>}
                     </span>
                   </div>
                 </div>
@@ -617,7 +617,7 @@ export default function CashflowSimulator() {
         {/* Gráfico de Caja */}
         <div className="bg-slate-900/80 border border-indigo-500/20 rounded-2xl p-6 backdrop-blur-xl shadow-xl flex flex-col h-[380px]">
           <h4 className="text-sm font-bold text-slate-200 mb-2 flex items-center justify-between">
-            <span>📈 Evolución de Caja a 24 Meses</span>
+            <span className="flex items-center gap-2"><TrendingUp size={15} className="text-indigo-400" /> Evolución de Caja a 24 Meses</span>
             <span className="text-[11px] text-rose-400 font-semibold">Piso de Seguridad: $10.000</span>
           </h4>
           <div className="flex-1 relative">
@@ -632,8 +632,8 @@ export default function CashflowSimulator() {
 
         {/* Gráfico de Clientes Activos */}
         <div className="bg-slate-900/80 border border-indigo-500/20 rounded-2xl p-6 backdrop-blur-xl shadow-xl flex flex-col h-[380px]">
-          <h4 className="text-sm font-bold text-slate-200 mb-2">
-            👥 Evolución de Clientes Activos (Mes 1 a 24)
+          <h4 className="text-sm font-bold text-slate-200 mb-2 flex items-center gap-2">
+            <Users size={15} className="text-cyan-400" /> Evolución de Clientes Activos (Mes 1 a 24)
           </h4>
           <div className="flex-1 relative">
             <Line
@@ -649,8 +649,8 @@ export default function CashflowSimulator() {
       {/* ── El Pitch para Ricardo ── */}
       <section className="bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-slate-900/80 border border-indigo-500/30 rounded-2xl p-6 backdrop-blur-xl shadow-2xl">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center text-xl text-indigo-400">
-            💼
+          <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+            <Briefcase size={20} />
           </div>
           <div>
             <h3 className="text-lg font-bold text-white">El Pitch para Ricardo (Resumen Ejecutivo)</h3>
@@ -659,17 +659,21 @@ export default function CashflowSimulator() {
         </div>
 
         <div className="space-y-3 text-sm leading-relaxed text-slate-300">
-          <p className="p-3 bg-slate-800/60 rounded-xl border border-slate-700/40">
-            <strong>Estrategia Recomendada:</strong> {pitchText.recSpend}.
+          <p className="p-3 bg-slate-800/60 rounded-xl border border-slate-700/40 flex gap-2">
+            <DollarSign size={15} className="text-indigo-400 mt-0.5 shrink-0" />
+            <span><strong>Estrategia Recomendada:</strong> {pitchText.recSpend}.</span>
           </p>
-          <p className="p-3 bg-slate-800/60 rounded-xl border border-slate-700/40">
-            <strong>Diagnóstico de Viabilidad:</strong> {pitchText.statusPhrase}
+          <p className="p-3 bg-slate-800/60 rounded-xl border border-slate-700/40 flex gap-2">
+            <TrendingUp size={15} className="text-emerald-400 mt-0.5 shrink-0" />
+            <span><strong>Diagnóstico de Viabilidad:</strong> {pitchText.statusPhrase}</span>
           </p>
-          <p className="p-3 bg-rose-950/20 rounded-xl border border-rose-500/20 text-rose-200">
-            <strong>La Trampa del Plan de Valeria:</strong> {pitchText.valeriaCritique}
+          <p className="p-3 bg-rose-950/20 rounded-xl border border-rose-500/20 text-rose-200 flex gap-2">
+            <AlertTriangle size={15} className="text-rose-400 mt-0.5 shrink-0" />
+            <span><strong>La Trampa del Plan de Valeria:</strong> {pitchText.valeriaCritique}</span>
           </p>
-          <p className="p-3 bg-emerald-950/20 rounded-xl border border-emerald-500/20 text-emerald-200">
-            <strong>La Solución Financiera (Hack):</strong> {pitchText.hackTip}
+          <p className="p-3 bg-emerald-950/20 rounded-xl border border-emerald-500/20 text-emerald-200 flex gap-2">
+            <Lightbulb size={15} className="text-emerald-400 mt-0.5 shrink-0" />
+            <span><strong>La Solución Financiera (Hack):</strong> {pitchText.hackTip}</span>
           </p>
         </div>
       </section>
@@ -679,7 +683,7 @@ export default function CashflowSimulator() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <span>📋</span> Tabla de Flujo de Caja Proyectado (24 Meses)
+              <Table2 size={18} className="text-indigo-400" /> Tabla de Flujo de Caja Proyectado (24 Meses)
             </h3>
             <p className="text-xs text-slate-400">
               Desglose detallado mes a mes basado en tu estrategia actual.
@@ -731,11 +735,11 @@ export default function CashflowSimulator() {
                   </td>
                   <td className="p-2.5 text-center">
                     {m.isUnderFloor ? (
-                      <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] px-2 py-0.5 rounded font-sans font-bold">
-                        🚨 &lt; $10k
+                      <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] px-2 py-0.5 rounded font-sans font-bold inline-flex items-center gap-1">
+                        <AlertTriangle size={10} /> &lt;$10k
                       </span>
                     ) : (
-                      <span className="text-emerald-500 text-[10px]">OK</span>
+                      <span className="text-emerald-500 text-[10px] flex items-center justify-center"><CheckCircle2 size={12} /></span>
                     )}
                   </td>
                 </tr>
@@ -751,12 +755,12 @@ export default function CashflowSimulator() {
           <div className="bg-slate-900 border border-indigo-500/30 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setShowMathModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold"
+              className="absolute top-4 right-4 text-slate-400 hover:text-white flex"
             >
-              ✕
+              <X size={18} />
             </button>
             <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-              <span>🔍</span> Verificación Matemática: Mes 1 ($10.000 de Inversión)
+              <Calculator size={18} className="text-indigo-400" /> Verificación Matemática: Mes 1 ($10.000 de Inversión)
             </h3>
             <p className="text-xs text-slate-400 mb-4">
               Paso a paso exacto auditado según las fórmulas del caso Agendo Nivel 3.

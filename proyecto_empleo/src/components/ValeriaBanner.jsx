@@ -1,3 +1,4 @@
+import { FileText, BarChart2, AlertTriangle } from 'lucide-react';
 import CONFIG from '../config';
 
 /**
@@ -15,8 +16,9 @@ export default function ValeriaBanner({ results }) {
     <div className="valeria-banner animate-in">
       {/* Lado de Valeria */}
       <div className="valeria-side valeria-side--claimed">
-        <div className="valeria-side__label">
-          📄 Reporte de Valeria
+        <div className="valeria-side__label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+          <FileText size={13} />
+          Reporte de Valeria
         </div>
         <div className="valeria-side__value">
           LTV:CAC = {claimedLtvCac}x
@@ -28,8 +30,9 @@ export default function ValeriaBanner({ results }) {
 
       {/* Lado real */}
       <div className="valeria-side valeria-side--real">
-        <div className="valeria-side__label">
-          📊 Cálculo Real (CAC Paid)
+        <div className="valeria-side__label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+          <BarChart2 size={13} />
+          Cálculo Real (CAC Paid)
         </div>
         <div className="valeria-side__value">
           LTV:CAC = {realLtvCacPaid.toFixed(2)}x
@@ -40,8 +43,9 @@ export default function ValeriaBanner({ results }) {
       </div>
 
       {/* Warning */}
-      <div className="valeria-banner__warning">
-        ⚠️ Diferencia de <strong>{diff}x</strong> — {explanation}
+      <div className="valeria-banner__warning" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+        <AlertTriangle size={14} />
+        Diferencia de <strong>{diff}x</strong> — {explanation}
       </div>
     </div>
   );

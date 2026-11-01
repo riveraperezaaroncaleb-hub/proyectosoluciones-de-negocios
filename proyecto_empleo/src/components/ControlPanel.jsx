@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { SlidersHorizontal, RotateCcw } from 'lucide-react';
 import CONFIG from '../config';
 
 /**
@@ -14,7 +15,8 @@ export default function ControlPanel({ inputs, onChange, onReset }) {
   return (
     <aside className="control-panel animate-in">
       <h2 className="control-panel__title">
-        🎛️ Panel de Control
+        <SlidersHorizontal size={15} />
+        Panel de Control
       </h2>
 
       {keys.map((key) => {
@@ -32,7 +34,11 @@ export default function ControlPanel({ inputs, onChange, onReset }) {
                 {label}
               </label>
               <span className="slider-group__value">
-                {prefix}{typeof value === 'number' && value % 1 !== 0 ? value.toFixed(3) : value.toLocaleString()}{suffix}
+                {prefix}
+                {typeof value === 'number' && value % 1 !== 0
+                  ? value.toFixed(3)
+                  : value.toLocaleString()}
+                {suffix}
               </span>
             </div>
             <input
@@ -54,7 +60,8 @@ export default function ControlPanel({ inputs, onChange, onReset }) {
         onClick={onReset}
         style={{ width: '100%', marginTop: '16px', justifyContent: 'center' }}
       >
-        🔄 Reset a datos de Agendo
+        <RotateCcw size={14} />
+        Reset a datos de Agendo
       </button>
     </aside>
   );
