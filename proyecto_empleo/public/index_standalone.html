@@ -145,6 +145,15 @@
           </button>
 
           <button
+            @click="activeTab = 'tables'"
+            :class="activeTab === 'tables' ? 'bg-amazon-amber text-amazon-navy shadow-md font-bold' : 'text-slate-300 hover:text-white font-medium'"
+            class="px-3.5 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
+          >
+            <span>📋</span>
+            <span>Tablas Maestras</span>
+          </button>
+
+          <button
             @click="activeTab = 'productAi'"
             :class="activeTab === 'productAi' ? 'bg-amazon-amber text-amazon-navy shadow-md font-bold' : 'text-slate-300 hover:text-white font-medium'"
             class="px-3.5 py-2 rounded-lg text-xs transition-all flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
@@ -189,7 +198,8 @@
         <button @click="activeTab = 'unitEconomics'" :class="activeTab === 'unitEconomics' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">📊 Unit Economics</button>
         <button @click="activeTab = 'montecarlo'" :class="activeTab === 'montecarlo' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">🎲 Monte Carlo</button>
         <button @click="activeTab = 'benchmarking'" :class="activeTab === 'benchmarking' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">📈 Benchmarking</button>
-        <button @click="activeTab = 'productAi'" :class="activeTab === 'productAi' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">🤖 n8n AI</button>
+        <button @click="activeTab = 'tables'" :class="activeTab === 'tables' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">📋 Tablas Maestras</button>
+      <button @click="activeTab = 'productAi'" :class="activeTab === 'productAi' ? 'bg-amazon-amber text-amazon-navy font-bold' : 'bg-amazon-navyLight text-slate-300'" class="px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">🤖 n8n AI</button>
       </div>
 
     </div>
@@ -247,6 +257,25 @@
     <!-- ──────────────────────────────────────────────────────── -->
     <div x-show="activeTab === 'cashflow'" x-transition.opacity.duration.250ms class="space-y-8">
       
+      <!-- Banner de Navegación Rápida a Tablas -->
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-800/90 border border-amber-500/30 px-4 py-3 rounded-2xl text-xs text-slate-200 shadow-lg">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">📋</span>
+          <div>
+            <strong class="text-white block font-sans">Tablas Financieras Disponibles:</strong>
+            <span class="text-slate-400">Accede directamente al desglose mensual a 24 meses o a la comparativa de estrategias.</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="#tabla-dinamica-24m" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-xl transition shadow flex items-center gap-1.5">
+            <span>⬇️</span> Ir a Tabla 24 Meses
+          </a>
+          <button @click="activeTab = 'tables'" class="bg-slate-700 hover:bg-slate-600 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 border border-slate-600">
+            <span>📑</span> Ver Centro de Tablas
+          </button>
+        </div>
+      </div>
+
       <!-- ── HEALTH SCORE (PRIORITARIO) ── -->
       <section class="bg-gradient-to-r from-slate-900 via-amazon-navy to-slate-900 text-white rounded-2xl p-6 shadow-2xl border border-slate-700/80">
         <div class="flex flex-wrap items-center justify-between gap-6">
@@ -419,10 +448,53 @@
 
       <!-- ── COMPARADOR DE LOS 4 ESCENARIOS (CONSERVADO Y VISIBLE) ── -->
       <section>
-        <h3 class="text-base font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-          <span>⚖️</span>
-          <span>Comparador de Escenarios (Criterio Piso $10,000)</span>
-        </h3>
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span>⚖️</span>
+            <span>Comparador de Escenarios (Criterio Piso $10,000)</span>
+          </h3>
+          <span class="text-xs text-slate-400 font-mono">4 Estrategias Modeladas</span>
+        </div>
+
+        <!-- Tabla Comparativa de las 4 Estrategias -->
+        <div class="mb-4 bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-4 shadow-lg overflow-x-auto">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">📋 Tabla Resumen de Estrategias</span>
+            <span class="text-[10px] text-slate-400">Piso de seguridad: $10,000</span>
+          </div>
+          <table class="w-full text-xs text-left font-mono">
+            <thead class="bg-slate-100 dark:bg-slate-900/90 text-slate-500 uppercase text-[10px]">
+              <tr>
+                <th class="p-2.5">Estrategia</th>
+                <th class="p-2.5">Inversión Mensual</th>
+                <th class="p-2.5">Caja Mínima</th>
+                <th class="p-2.5">Mes Mínimo</th>
+                <th class="p-2.5">Clientes Mes 24</th>
+                <th class="p-2.5">Caja Final M24</th>
+                <th class="p-2.5 text-center">Estatus Viabilidad</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+              <template x-for="sc in scenarioCards" :key="sc.title">
+                <tr :class="sc.isViable ? 'hover:bg-slate-50 dark:hover:bg-slate-800/40' : 'bg-rose-500/5 text-rose-400'">
+                  <td class="p-2.5 font-bold font-sans flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full inline-block" :style="{ backgroundColor: sc.badgeColor }"></span>
+                    <span x-text="sc.title"></span>
+                  </td>
+                  <td class="p-2.5" x-text="sc.badge"></td>
+                  <td class="p-2.5 font-black" :class="sc.isViable ? 'text-emerald-500' : 'text-rose-500'" x-text="formatMoney(sc.minCash)"></td>
+                  <td class="p-2.5" x-text="'Mes ' + sc.minCashMonth"></td>
+                  <td class="p-2.5 font-bold" x-text="sc.finalClients.toLocaleString()"></td>
+                  <td class="p-2.5 font-bold" x-text="formatMoney(sc.finalCash)"></td>
+                  <td class="p-2.5 text-center font-sans">
+                    <span x-show="sc.isViable" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">✅ Viable</span>
+                    <span x-show="!sc.isViable" class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30">❌ Descalificado</span>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <template x-for="(sc, idx) in scenarioCards" :key="idx">
             <div class="p-5 rounded-2xl border transition-all duration-200 bg-white dark:bg-amazon-darkCard shadow-md" :class="sc.isViable ? 'border-emerald-500/30' : 'border-rose-500/30'">
@@ -499,10 +571,27 @@
       </section>
 
       <!-- ── TABLA DINÁMICA 24 MESES ── -->
-      <section class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg overflow-hidden">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-base font-bold text-slate-900 dark:text-white">Tabla de Flujo de Caja Proyectado (24 Meses)</h3>
-          <span class="text-xs font-mono text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">Base: 1,150 Clientes | Caja: $60,000</span>
+      <section id="tabla-dinamica-24m" class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg overflow-hidden scroll-mt-20">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span>📋</span> Tabla de Flujo de Caja Proyectado (24 Meses)
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">Evolución detallada mes a mes calculada con el motor financiero puro.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              @click="exportCsvCashflow()"
+              class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow"
+              title="Descargar esta tabla en formato CSV para Excel"
+            >
+              <span>📥</span>
+              <span>Exportar CSV</span>
+            </button>
+            <span class="text-xs font-mono text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-700/40">
+              Base: 1,150 Clientes | Caja Inicial: $60,000
+            </span>
+          </div>
         </div>
         <div class="overflow-x-auto max-h-[440px]">
           <table class="w-full text-xs text-left font-mono">
@@ -665,6 +754,68 @@
             </div>
             <input type="range" min="0" max="500" step="5" x-model.number="uEconInputs.organicClients" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
           </div>
+        </div>
+      </section>
+
+      <!-- Tabla Comparativa de Canales & Unit Economics -->
+      <section class="bg-white dark:bg-amazon-darkCard border border-slate-200 dark:border-amazon-darkBorder rounded-2xl p-6 shadow-lg overflow-hidden">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span>📋</span> Tabla Comparativa de Canales de Adquisición & Unit Economics
+          </h3>
+          <span class="text-xs text-slate-400 font-mono">Nivel 2 Case Agendo</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left font-mono">
+            <thead class="bg-slate-100 dark:bg-slate-900/90 text-slate-500 uppercase text-[10px]">
+              <tr>
+                <th class="p-2.5">Canal de Captación</th>
+                <th class="p-2.5">Inversión Ads</th>
+                <th class="p-2.5">Trials Generados</th>
+                <th class="p-2.5">Conversión</th>
+                <th class="p-2.5">Clientes Nuevos</th>
+                <th class="p-2.5">CAC Unitario</th>
+                <th class="p-2.5">LTV (24 Meses)</th>
+                <th class="p-2.5">Ratio LTV : CAC</th>
+                <th class="p-2.5">Meses Payback</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                <td class="p-2.5 font-bold font-sans text-amber-500">Paid Ads (Facebook/Instagram)</td>
+                <td class="p-2.5" x-text="formatMoney(uEconInputs.adSpend)"></td>
+                <td class="p-2.5" x-text="Math.round(uEconInputs.adSpend * uEconInputs.trialSlope).toLocaleString()"></td>
+                <td class="p-2.5" x-text="uEconInputs.conversionRate + '%'"></td>
+                <td class="p-2.5 font-bold" x-text="Math.round(uEconInputs.adSpend * uEconInputs.trialSlope * (uEconInputs.conversionRate / 100)).toLocaleString()"></td>
+                <td class="p-2.5 font-bold text-rose-400" x-text="formatMoney(uEconResults.cacPaid)"></td>
+                <td class="p-2.5 font-bold text-emerald-400" x-text="formatMoney(uEconResults.ltv24)"></td>
+                <td class="p-2.5 font-black" :class="uEconResults.ltvCacPaid >= 3 ? 'text-emerald-400' : 'text-amber-400'" x-text="uEconResults.ltvCacPaid.toFixed(2) + 'x'"></td>
+                <td class="p-2.5" x-text="uEconResults.paybackMonths + ' meses'"></td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                <td class="p-2.5 font-bold font-sans text-cyan-400">Orgánico & Boca a Boca</td>
+                <td class="p-2.5">$0</td>
+                <td class="p-2.5">—</td>
+                <td class="p-2.5">—</td>
+                <td class="p-2.5 font-bold" x-text="uEconInputs.organicClients"></td>
+                <td class="p-2.5 text-emerald-400 font-bold">$0.00</td>
+                <td class="p-2.5 font-bold text-emerald-400" x-text="formatMoney(uEconResults.ltv24)"></td>
+                <td class="p-2.5 font-black text-emerald-400">∞ (Orgánico)</td>
+                <td class="p-2.5 text-emerald-400">0 meses</td>
+              </tr>
+              <tr class="bg-slate-100/60 dark:bg-slate-900/60 font-bold">
+                <td class="p-2.5 font-bold font-sans text-slate-900 dark:text-white">Blended (Total Agendo)</td>
+                <td class="p-2.5" x-text="formatMoney(uEconInputs.adSpend)"></td>
+                <td class="p-2.5" x-text="Math.round(uEconInputs.adSpend * uEconInputs.trialSlope).toLocaleString()"></td>
+                <td class="p-2.5">—</td>
+                <td class="p-2.5 text-white" x-text="(Math.round(uEconInputs.adSpend * uEconInputs.trialSlope * (uEconInputs.conversionRate / 100)) + uEconInputs.organicClients).toLocaleString()"></td>
+                <td class="p-2.5 text-cyan-400 font-bold" x-text="formatMoney(uEconResults.cacBlended)"></td>
+                <td class="p-2.5 font-bold text-emerald-400" x-text="formatMoney(uEconResults.ltv24)"></td>
+                <td class="p-2.5 font-black text-cyan-400" x-text="uEconResults.ltvCacBlended.toFixed(2) + 'x'"></td>
+                <td class="p-2.5" x-text="Math.ceil(uEconResults.cacBlended / (uEconInputs.monthlyPrice * (uEconInputs.grossMargin / 100))) + ' meses'"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 

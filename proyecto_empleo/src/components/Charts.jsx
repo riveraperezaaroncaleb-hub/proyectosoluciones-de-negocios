@@ -25,11 +25,11 @@ ChartJS.register(
   Legend,
 );
 
-// Intentar registrar el plugin de anotaciones (se instala aparte)
+// Intentar registrar el plugin de anotaciones
 try {
   ChartJS.register(annotationPlugin);
 } catch {
-  // Plugin no disponible — las líneas de referencia no se mostrarán
+  // Plugin no disponible
 }
 
 // ── Constantes de estilo ────────────────────────────────────
@@ -45,58 +45,70 @@ const COLORS = {
   amber: 'rgba(245, 158, 11, 1)',
   rose: 'rgba(244, 63, 94, 1)',
   roseFaded: 'rgba(244, 63, 94, 0.15)',
-  textMuted: 'rgba(148, 163, 184, 0.6)',
-  gridLine: 'rgba(99, 102, 241, 0.08)',
 };
 
-const BASE_OPTIONS = {
-  responsive: true,
-  maintainAspectRatio: true,
-  animation: { duration: 400, easing: 'easeOutQuart' },
-  plugins: {
-    legend: {
-      labels: {
-        color: COLORS.textMuted,
-        font: { family: 'Inter', size: 11, weight: 500 },
-        usePointStyle: true,
-        pointStyle: 'circle',
-        padding: 16,
+/**
+ * Obtiene las opciones base adaptadas al tema claro u oscuro
+ */
+function getBaseOptions(theme = 'dark') {
+  const isLight = theme === 'light';
+  const textMuted = isLight ? '#334155' : 'rgba(148, 163, 184, 0.8)';
+  const gridLine = isLight ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.08)';
+  const tooltipBg = isLight ? 'rgba(255, 255, 255, 0.96)' : 'rgba(15, 15, 26, 0.95)';
+  const tooltipTitle = isLight ? '#0f172a' : '#e2e8f0';
+  const tooltipBody = isLight ? '#334155' : '#94a3b8';
+  const tooltipBorder = isLight ? 'rgba(99, 102, 241, 0.3)' : 'rgba(99, 102, 241, 0.2)';
+
+  return {
+    responsive: true,
+    maintainAspectRatio: true,
+    animation: { duration: 400, easing: 'easeOutQuart' },
+    plugins: {
+      legend: {
+        labels: {
+          color: textMuted,
+          font: { family: 'Inter', size: 11, weight: 500 },
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 16,
+        },
+      },
+      tooltip: {
+        backgroundColor: tooltipBg,
+        titleColor: tooltipTitle,
+        bodyColor: tooltipBody,
+        borderColor: tooltipBorder,
+        borderWidth: 1,
+        cornerRadius: 8,
+        padding: 12,
+        titleFont: { family: 'Inter', weight: 600 },
+        bodyFont: { family: 'Inter' },
       },
     },
-    tooltip: {
-      backgroundColor: 'rgba(15, 15, 26, 0.95)',
-      titleColor: '#e2e8f0',
-      bodyColor: '#94a3b8',
-      borderColor: 'rgba(99, 102, 241, 0.2)',
-      borderWidth: 1,
-      cornerRadius: 8,
-      padding: 12,
-      titleFont: { family: 'Inter', weight: 600 },
-      bodyFont: { family: 'Inter' },
+    scales: {
+      x: {
+        ticks: { color: textMuted, font: { family: 'Inter', size: 10 } },
+        grid: { color: gridLine },
+        border: { color: gridLine },
+      },
+      y: {
+        ticks: { color: textMuted, font: { family: 'Inter', size: 10 } },
+        grid: { color: gridLine },
+        border: { color: gridLine },
+      },
     },
-  },
-  scales: {
-    x: {
-      ticks: { color: COLORS.textMuted, font: { family: 'Inter', size: 10 } },
-      grid: { color: COLORS.gridLine },
-      border: { color: COLORS.gridLine },
-    },
-    y: {
-      ticks: { color: COLORS.textMuted, font: { family: 'Inter', size: 10 } },
-      grid: { color: COLORS.gridLine },
-      border: { color: COLORS.gridLine },
-    },
-  },
-};
+  };
+}
 
 /**
  * ════════════════════════════════════════════════════════
  * 1. CURVA DE CAJA (Cash Curve)
  * ════════════════════════════════════════════════════════
  */
-export function CashCurveChart({ results }) {
+export function CashCurveChart({ results, theme = 'dark' }) {
   if (!results) return null;
 
+  const baseOptions = getBaseOptions(theme);
   const labels = results.cashCurveMonthly.map((p) => `M${p.month}`);
   const monthlyValues = results.cashCurveMonthly.map((p) => p.value);
   const annualValues = results.cashCurveAnnual.map((p) => p.value);
@@ -130,9 +142,9 @@ export function CashCurveChart({ results }) {
   };
 
   const options = {
-    ...BASE_OPTIONS,
+    ...baseOptions,
     plugins: {
-      ...BASE_OPTIONS.plugins,
+      ...baseOptions.plugins,
       annotation: {
         annotations: {
           paybackLine: {
@@ -156,11 +168,11 @@ export function CashCurveChart({ results }) {
       },
     },
     scales: {
-      ...BASE_OPTIONS.scales,
+      ...baseOptions.scales,
       y: {
-        ...BASE_OPTIONS.scales.y,
+        ...baseOptions.scales.y,
         ticks: {
-          ...BASE_OPTIONS.scales.y.ticks,
+          ...baseOptions.scales.y.ticks,
           callback: (val) => `$${val.toFixed(0)}`,
         },
       },
@@ -180,9 +192,10 @@ export function CashCurveChart({ results }) {
  * 2. LTV vs CAC
  * ════════════════════════════════════════════════════════
  */
-export function LtvVsCacChart({ results }) {
+export function LtvVsCacChart({ results, theme = 'dark' }) {
   if (!results) return null;
 
+  const baseOptions = getBaseOptions(theme);
   const data = {
     labels: ['LTV 24m', 'CAC Paid', 'CAC Blended'],
     datasets: [
@@ -198,12 +211,11 @@ export function LtvVsCacChart({ results }) {
     ],
   };
 
-  // Líneas de referencia 1:1 y 3:1
   const maxVal = Math.max(results.ltv24, results.cacPaid * 3, 300);
   const options = {
-    ...BASE_OPTIONS,
+    ...baseOptions,
     plugins: {
-      ...BASE_OPTIONS.plugins,
+      ...baseOptions.plugins,
       legend: { display: false },
       annotation: {
         annotations: {
@@ -245,12 +257,12 @@ export function LtvVsCacChart({ results }) {
       },
     },
     scales: {
-      ...BASE_OPTIONS.scales,
+      ...baseOptions.scales,
       y: {
-        ...BASE_OPTIONS.scales.y,
+        ...baseOptions.scales.y,
         max: maxVal * 1.2,
         ticks: {
-          ...BASE_OPTIONS.scales.y.ticks,
+          ...baseOptions.scales.y.ticks,
           callback: (val) => `$${val.toFixed(0)}`,
         },
       },
@@ -270,9 +282,10 @@ export function LtvVsCacChart({ results }) {
  * 3. FUNNEL
  * ════════════════════════════════════════════════════════
  */
-export function FunnelChart({ results }) {
+export function FunnelChart({ results, theme = 'dark' }) {
   if (!results) return null;
 
+  const baseOptions = getBaseOptions(theme);
   const funnel = results.funnel;
 
   const data = {
@@ -281,16 +294,8 @@ export function FunnelChart({ results }) {
       {
         label: 'Funnel',
         data: funnel.map((f) => f.value),
-        backgroundColor: [
-          COLORS.indigo,
-          COLORS.violet,
-          COLORS.cyan,
-        ],
-        borderColor: [
-          COLORS.indigo,
-          COLORS.violet,
-          COLORS.cyan,
-        ],
+        backgroundColor: [COLORS.indigo, COLORS.violet, COLORS.cyan],
+        borderColor: [COLORS.indigo, COLORS.violet, COLORS.cyan],
         borderWidth: 2,
         borderRadius: 8,
         barPercentage: 0.7,
@@ -299,17 +304,17 @@ export function FunnelChart({ results }) {
   };
 
   const options = {
-    ...BASE_OPTIONS,
+    ...baseOptions,
     indexAxis: 'y',
     plugins: {
-      ...BASE_OPTIONS.plugins,
+      ...baseOptions.plugins,
       legend: { display: false },
     },
     scales: {
       x: {
-        ...BASE_OPTIONS.scales.x,
+        ...baseOptions.scales.x,
         ticks: {
-          ...BASE_OPTIONS.scales.x.ticks,
+          ...baseOptions.scales.x.ticks,
           callback: (val) => {
             if (val >= 1000) return `${(val / 1000).toFixed(1)}k`;
             return val;
@@ -317,9 +322,9 @@ export function FunnelChart({ results }) {
         },
       },
       y: {
-        ...BASE_OPTIONS.scales.y,
+        ...baseOptions.scales.y,
         ticks: {
-          ...BASE_OPTIONS.scales.y.ticks,
+          ...baseOptions.scales.y.ticks,
           font: { family: 'Inter', size: 12, weight: 600 },
         },
       },

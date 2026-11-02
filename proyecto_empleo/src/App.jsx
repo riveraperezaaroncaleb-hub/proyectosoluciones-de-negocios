@@ -13,6 +13,10 @@ import {
   Share2,
   FileDown,
   Tv,
+  Bot,
+  Accessibility,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import CONFIG from './config';
 import { calcularUnitEconomics } from './engine';
@@ -26,6 +30,8 @@ import CashflowSimulator from './components/CashflowSimulator';
 import ShareModal from './components/ShareModal';
 import ExecutiveReportModal from './components/ExecutiveReportModal';
 import PresentationMode from './components/PresentationMode';
+import AiAdvisorModal from './components/AiAdvisorModal';
+import AccessibilityModal from './components/AccessibilityModal';
 import { getInitialStateFromUrl, syncUrlWithState } from './utils/urlState';
 import './index.css';
 
@@ -39,6 +45,19 @@ export default function App() {
   const [inputs, setInputs] = useState(initialData.inputs);
   const [cashflowState, setCashflowState] = useState(initialData.cashflowState);
 
+  // ── Modos Visuales y Accesibilidad ──
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('agendo_theme');
+    if (saved) return saved;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
+      ? 'light'
+      : 'dark';
+  });
+
+  const [fontSize, setFontSize] = useState(() => localStorage.getItem('agendo_fontsize') || 'normal');
+  const [highContrast, setHighContrast] = useState(() => localStorage.getItem('agendo_contrast') === 'true');
+  const [reducedMotion, setReducedMotion] = useState(() => localStorage.getItem('agendo_motion') === 'true');
+
   // Modales y herramientas ejecutivas
   const [saveModal, setSaveModal] = useState(false);
   const [scenarioName, setScenarioName] = useState('');
@@ -46,6 +65,29 @@ export default function App() {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isExecutiveReportOpen, setIsExecutiveReportOpen] = useState(false);
   const [isPresentationOpen, setIsPresentationOpen] = useState(false);
+  const [isAiAdvisorOpen, setIsAiAdvisorOpen] = useState(false);
+  const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
+
+  // Sincronizar atributos de tema y accesibilidad en el HTML raíz
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('agendo_theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-font-size', fontSize);
+    localStorage.setItem('agendo_fontsize', fontSize);
+  }, [fontSize]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-contrast', highContrast ? 'high' : 'normal');
+    localStorage.setItem('agendo_contrast', String(highContrast));
+  }, [highContrast]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-reduced-motion', String(reducedMotion));
+    localStorage.setItem('agendo_motion', String(reducedMotion));
+  }, [reducedMotion]);
 
   // Notificar si se cargó un escenario desde la URL compartida
   useEffect(() => {
@@ -59,11 +101,42 @@ export default function App() {
     syncUrlWithState({ activeTab, inputs, cashflowState });
   }, [activeTab, inputs, cashflowState]);
 
-  // Atajo de teclado 'P' para Modo Presentación
+  // Atajos de teclado globales (Accesibilidad y productividad)
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Ignorar si el usuario está escribiendo en un input
+      // Ignorar si el usuario está escribiendo en un input o textarea
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+
+      // Escape: cerrar modales abiertos
+      if (e.key === 'Escape') {
+        setIsPresentationOpen(false);
+        setIsAiAdvisorOpen(false);
+        setIsAccessibilityOpen(false);
+        setIsShareModalOpen(false);
+        setIsExecutiveReportOpen(false);
+        setSaveModal(false);
+        return;
+      }
+
+      // Alt + T o tecla 'T': Alternar modo claro / oscuro
+      if ((e.altKey && (e.key === 't' || e.key === 'T')) || e.key === 't' || e.key === 'T') {
+        setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+        return;
+      }
+
+      // Alt + A o tecla 'A': Abrir menú de Accesibilidad
+      if ((e.altKey && (e.key === 'a' || e.key === 'A')) || e.key === 'a' || e.key === 'A') {
+        setIsAccessibilityOpen((prev) => !prev);
+        return;
+      }
+
+      // Alt + I o tecla 'I': Abrir Asesor IA Copilot
+      if ((e.altKey && (e.key === 'i' || e.key === 'I')) || e.key === 'i' || e.key === 'I') {
+        setIsAiAdvisorOpen((prev) => !prev);
+        return;
+      }
+
+      // Tecla 'P': Modo Presentación
       if (e.key === 'p' || e.key === 'P') {
         setIsPresentationOpen((prev) => !prev);
       }
@@ -160,9 +233,9 @@ export default function App() {
     info: <Info size={15} />,
   };
   const notifColors = {
-    error: { bg: 'rgba(244,63,94,0.18)', border: 'rgba(244,63,94,0.45)' },
-    success: { bg: 'rgba(16,185,129,0.18)', border: 'rgba(16,185,129,0.45)' },
-    info: { bg: 'rgba(99,102,241,0.18)', border: 'rgba(99,102,241,0.45)' },
+    error: { bg: 'rgba(244,63,94,0.22)', border: 'rgba(244,63,94,0.5)' },
+    success: { bg: 'rgba(16,185,129,0.22)', border: 'rgba(16,185,129,0.5)' },
+    info: { bg: 'rgba(99,102,241,0.22)', border: 'rgba(99,102,241,0.5)' },
   };
 
   return (
@@ -171,6 +244,8 @@ export default function App() {
       {notification && (
         <div
           className="no-print"
+          role="status"
+          aria-live="polite"
           style={{
             position: 'fixed',
             top: 20,
@@ -181,14 +256,14 @@ export default function App() {
             backdropFilter: 'blur(24px)',
             background: notifColors[notification.type]?.bg,
             border: `1px solid ${notifColors[notification.type]?.border}`,
-            color: '#f8fafc',
+            color: 'var(--text-primary)',
             fontSize: '0.86rem',
             fontWeight: 600,
             animation: 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            boxShadow: '0 12px 35px rgba(0,0,0,0.5)',
+            boxShadow: '0 12px 35px rgba(0,0,0,0.3)',
           }}
         >
           {notifIcon[notification.type]}
@@ -217,10 +292,10 @@ export default function App() {
         <div
           style={{
             display: 'flex',
-            background: 'rgba(15,15,26,0.85)',
+            background: 'var(--bg-primary)',
             padding: '6px',
             borderRadius: '14px',
-            border: '1px solid rgba(99,102,241,0.25)',
+            border: '1px solid var(--border-color)',
             backdropFilter: 'blur(12px)',
             gap: '4px',
           }}
@@ -241,9 +316,9 @@ export default function App() {
               transition: 'all 0.2s',
               background:
                 activeTab === 'level2'
-                  ? 'linear-gradient(135deg, #6366f1, #8b5cf6)'
+                  ? 'var(--gradient-primary)'
                   : 'transparent',
-              color: activeTab === 'level2' ? 'white' : '#94a3b8',
+              color: activeTab === 'level2' ? 'white' : 'var(--text-secondary)',
               boxShadow:
                 activeTab === 'level2' ? '0 4px 15px rgba(99,102,241,0.35)' : 'none',
             }}
@@ -269,7 +344,7 @@ export default function App() {
                 activeTab === 'level3'
                   ? 'linear-gradient(135deg, #10b981, #0d9488)'
                   : 'transparent',
-              color: activeTab === 'level3' ? 'white' : '#94a3b8',
+              color: activeTab === 'level3' ? 'white' : 'var(--text-secondary)',
               boxShadow:
                 activeTab === 'level3' ? '0 4px 15px rgba(16,185,129,0.3)' : 'none',
             }}
@@ -279,89 +354,143 @@ export default function App() {
           </button>
         </div>
 
-        {/* ── BOTONES DE ALTO IMPACTO (Diferenciadores Clave) ── */}
+        {/* ── BOTONES DE ALTO IMPACTO, IA Y ACCESIBILIDAD ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          {/* 1. URL Compartible */}
+          {/* BOTÓN ASESOR IA COPILOT */}
           <button
-            onClick={() => setIsShareModalOpen(true)}
+            onClick={() => setIsAiAdvisorOpen(true)}
+            className="btn btn--primary"
             style={{
               padding: '8px 14px',
               borderRadius: '10px',
               fontSize: '0.78rem',
               fontWeight: 700,
-              fontFamily: 'inherit',
-              cursor: 'pointer',
-              border: '1px solid rgba(56, 189, 248, 0.4)',
-              background: 'rgba(56, 189, 248, 0.12)',
-              color: '#38bdf8',
+              background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+              boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              transition: 'all 0.2s',
+            }}
+            title="Abrir Asesor Cuantitativo con IA Directa (Atajo: Alt + I o tecla I)"
+            aria-label="Abrir Asesor Inteligente con IA"
+          >
+            <Bot size={15} />
+            Asesor IA
+            <span
+              style={{
+                width: '7px',
+                height: '7px',
+                borderRadius: '50%',
+                background: '#10b981',
+                boxShadow: '0 0 6px #10b981',
+                display: 'inline-block',
+              }}
+            />
+          </button>
+
+          {/* BOTÓN ACCESIBILIDAD */}
+          <button
+            onClick={() => setIsAccessibilityOpen(true)}
+            className="btn btn--ghost"
+            style={{
+              padding: '8px 12px',
+              borderRadius: '10px',
+              fontSize: '0.78rem',
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
+            title="Centro de Accesibilidad y Lectura por Voz (Atajo: Alt + A o tecla A)"
+            aria-label="Centro de Accesibilidad"
+          >
+            <Accessibility size={15} color="var(--accent-cyan)" />
+            Accesibilidad
+          </button>
+
+          {/* BOTÓN MODO CLARO / OSCURO RÁPIDO */}
+          <button
+            onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
+            className="btn btn--ghost"
+            style={{
+              padding: '8px 11px',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            title={`Cambiar a ${theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'} (Atajo: Alt + T o tecla T)`}
+            aria-label={`Cambiar a ${theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}`}
+          >
+            {theme === 'dark' ? <Sun size={15} color="#f59e0b" /> : <Moon size={15} color="var(--accent-primary)" />}
+          </button>
+
+          {/* 1. URL Compartible */}
+          <button
+            onClick={() => setIsShareModalOpen(true)}
+            className="btn btn--ghost"
+            style={{
+              padding: '8px 12px',
+              borderRadius: '10px',
+              fontSize: '0.78rem',
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
             }}
             title="Generar enlace compartible con el estado exacto de la simulación"
           >
-            <Share2 size={14} />
+            <Share2 size={14} color="var(--accent-cyan)" />
             Compartir URL
           </button>
 
           {/* 2. Exportar PDF */}
           <button
             onClick={() => setIsExecutiveReportOpen(true)}
+            className="btn btn--ghost"
             style={{
-              padding: '8px 14px',
+              padding: '8px 12px',
               borderRadius: '10px',
               fontSize: '0.78rem',
-              fontWeight: 700,
-              fontFamily: 'inherit',
-              cursor: 'pointer',
-              border: '1px solid rgba(16, 185, 129, 0.4)',
-              background: 'rgba(16, 185, 129, 0.12)',
-              color: '#34d399',
+              fontWeight: 600,
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              transition: 'all 0.2s',
             }}
             title="Generar reporte ejecutivo imprimible para Board o Inversores"
           >
-            <FileDown size={14} />
+            <FileDown size={14} color="var(--accent-emerald)" />
             Exportar PDF
           </button>
 
           {/* 3. Modo Presentación */}
           <button
             onClick={() => setIsPresentationOpen(true)}
+            className="btn btn--primary"
             style={{
-              padding: '8px 16px',
+              padding: '8px 14px',
               borderRadius: '10px',
               fontSize: '0.78rem',
               fontWeight: 700,
-              fontFamily: 'inherit',
-              cursor: 'pointer',
-              border: 'none',
-              background: 'linear-gradient(135deg, #6366f1, #a855f7)',
-              color: 'white',
+              background: 'linear-gradient(135deg, #06b6d4, #3b82f6)',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              boxShadow: '0 4px 15px rgba(99, 102, 241, 0.35)',
-              transition: 'all 0.2s',
             }}
             title="Modo pantalla completa para presentar en vivo a la junta (Atajo: tecla P)"
           >
             <Tv size={14} />
-            Modo Presentación [P]
+            Presentación [P]
           </button>
 
           {/* Actions legacy de persistencia backend en Nivel 2 */}
           {activeTab === 'level2' && (
-            <div style={{ display: 'flex', gap: '6px', marginLeft: '6px', borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: '8px' }}>
-              <button className="btn btn--ghost" style={{ padding: '7px 12px', fontSize: '0.75rem' }} onClick={handleLoad} title="Cargar desde backend local">
+            <div style={{ display: 'flex', gap: '6px', marginLeft: '4px', borderLeft: '1px solid var(--border-color)', paddingLeft: '8px' }}>
+              <button className="btn btn--ghost" style={{ padding: '7px 11px', fontSize: '0.74rem' }} onClick={handleLoad} title="Cargar desde backend local">
                 <FolderOpen size={13} />
                 Cargar
               </button>
-              <button className="btn btn--primary" style={{ padding: '7px 12px', fontSize: '0.75rem' }} onClick={() => setSaveModal(true)} title="Guardar en backend local">
+              <button className="btn btn--primary" style={{ padding: '7px 11px', fontSize: '0.74rem' }} onClick={() => setSaveModal(true)} title="Guardar en backend local">
                 <Save size={13} />
                 Guardar
               </button>
@@ -378,9 +507,9 @@ export default function App() {
             <ValeriaBanner results={results} />
             <KpiCards results={results} />
             <div className="charts-grid">
-              <CashCurveChart results={results} />
-              <LtvVsCacChart results={results} />
-              <FunnelChart results={results} />
+              <CashCurveChart results={results} theme={theme} />
+              <LtvVsCacChart results={results} theme={theme} />
+              <FunnelChart results={results} theme={theme} />
             </div>
           </main>
         </div>
@@ -404,6 +533,35 @@ export default function App() {
           />
         </main>
       )}
+
+      {/* ── Modal IA: Asesor Cuantitativo & Copilot Directo ── */}
+      <AiAdvisorModal
+        isOpen={isAiAdvisorOpen}
+        onClose={() => setIsAiAdvisorOpen(false)}
+        inputs={inputs}
+        setInputs={setInputs}
+        results={results}
+        cashflowState={cashflowState}
+        setCashflowState={setCashflowState}
+        activeTab={activeTab}
+        showNotification={showNotification}
+      />
+
+      {/* ── Modal Accesibilidad & Centro Visual ── */}
+      <AccessibilityModal
+        isOpen={isAccessibilityOpen}
+        onClose={() => setIsAccessibilityOpen(false)}
+        theme={theme}
+        setTheme={setTheme}
+        fontSize={fontSize}
+        setFontSize={setFontSize}
+        highContrast={highContrast}
+        setHighContrast={setHighContrast}
+        reducedMotion={reducedMotion}
+        setReducedMotion={setReducedMotion}
+        results={results}
+        showNotification={showNotification}
+      />
 
       {/* ── Modal 1: Compartir URL (Estado Compartible Cero Backend) ── */}
       <ShareModal
